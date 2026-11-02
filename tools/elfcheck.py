@@ -1,33 +1,61 @@
 #!/usr/bin/env python3
-"""Structural checker for the MinitOS K1 ELF image.
+"""Structural checker for the MinitOS K2 ELF image.
 
 This script parses ELF32 directly with the Python standard library. It does
 not shell out to readelf, so the checks are stable across host toolchains and
 can run anywhere Python 3 is available.
 
-Checks include:
-  - ELF32 / little-endian / EM_ARM / EABI5 / soft-float flags
-  - entry point and vector table (first instruction branches to reset_handler)
-  - loadable segments, physical addresses and RAM bounds
-  - required linker symbols and section layout
-  - BSS / stack sizes, 8-byte stack alignment and image budget
-  - absence of undefined symbols (no accidental libc/libgcc dependency)
-  - the literal "MINITOS KERNEL STARTED" is present in .rodata
-  - optional flat binary matches the allocated ELF image byte-for-byte
+K2-specific checks include:
+  - a 32-byte low vector table at physical/virtual address 0, in its own
+    executable PT_LOAD segment;
+  - ELF entry point and reset_handler at 0x00010000, separate from the table;
+  - all eight vector slots branch to defined entry symbols;
+  - SVC/UND/ABT/IRQ/FIQ stack symbols with fixed sizes and 8-byte alignment;
+  - the compiled exception-frame size/alignment;
+  - real UDF and unaligned-LDR instruction sequences in the fault profiles;
+  - absence of undefined symbols and accidental libc/libgcc helpers;
+  - a flat binary matching the allocated ELF load image.
 """
 
 from __future__ import annotations
 
+import argparse
 import struct
 import sys
 from pathlib import Path
 
+EXPECTED_VECTOR_BASE = 0x00000000
+EXPECTED_VECTOR_SIZE = 32
 EXPECTED_IMAGE_BASE = 0x00010000
-EXPECTED_STACK_SIZE = 16 * 1024
 EXPECTED_RAM_BASE = 0x00000000
 EXPECTED_RAM_SIZE = 128 * 1024 * 1024
 IMAGE_BUDGET = 64 * 1024
-EXPECTED_MESSAGE = b"MINITOS KERNEL STARTED\x00"
+
+EXPECTED_STACK_SIZES = {
+    "svc": 16 * 1024,
+    "und": 4 * 1024,
+    "abt": 4 * 1024,
+    "irq": 2 * 1024,
+    "fiq": 1 * 1024,
+}
+
+EXPECTED_VECTORS = [
+    ("reset_handler", 0x00),
+    ("undef_entry", 0x04),
+    ("svc_entry", 0x08),
+    ("prefetch_entry", 0x0C),
+    ("data_abort_entry", 0x10),
+    ("reserved_entry", 0x14),
+    ("irq_entry", 0x18),
+    ("fiq_entry", 0x1C),
+]
+
+REQUIRED_MESSAGES = [
+    b"MINITOS KERNEL STARTED\x00",
+    b"K2 EXCEPTION CAPTURED\x00",
+    b"EXCEPTION: UNDEFINED INSTRUCTION\x00",
+    b"EXCEPTION: DATA ABORT\x00",
+]
 
 EM_ARM = 40
 ET_EXEC = 2
@@ -39,6 +67,7 @@ SHT_NOBITS = 8
 SHN_UNDEF = 0
 SHF_ALLOC = 0x2
 SHF_EXECINSTR = 0x4
+SHF_WRITE = 0x1
 EF_ARM_EABI_MASK = 0xFF000000
 EF_ARM_EABI_VER5 = 0x05000000
 EF_ARM_ABI_FLOAT_HARD = 0x00000400
@@ -47,6 +76,10 @@ ELF_HEADER = struct.Struct("<HHIIIIIHHHHHH")
 PROGRAM_HEADER = struct.Struct("<IIIIIIII")
 SECTION_HEADER = struct.Struct("<IIIIIIIIII")
 SYMBOL = struct.Struct("<IIIBBH")
+
+UDF_WORD = 0xE7F000F0
+ADD_R0_R0_1 = 0xE2800001
+LDR_R1_R0 = 0xE5901000
 
 
 class CheckFailure(RuntimeError):
@@ -97,11 +130,13 @@ def c_string(blob: bytes, offset: int) -> str:
 
 
 class Checker:
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path, profile: str) -> None:
         self.path = path
+        self.profile = profile
         self.data = path.read_bytes()
         self.checks: list[tuple[str, bool, str]] = []
         self.sections: dict[str, Section] = {}
+        self.raw_sections: list[Section] = []
         self.program_headers: list[tuple[int, ...]] = []
         self.symbols: dict[str, Symbol] = {}
         self.entry = 0
@@ -145,6 +180,7 @@ class Checker:
 
         for index, header in enumerate(raw_sections):
             section = Section(self.data, index, shstr, header)
+            self.raw_sections.append(section)
             if section.name:
                 self.sections[section.name] = section
 
@@ -178,6 +214,27 @@ class Checker:
             raise CheckFailure(f"missing required symbol {name}")
         return symbol
 
+    def section_containing(self, address: int) -> Section | None:
+        for sec in self.raw_sections:
+            if (sec.sh_flags & SHF_ALLOC) and sec.sh_size > 0:
+                if sec.sh_addr <= address < sec.sh_addr + sec.sh_size:
+                    return sec
+        return None
+
+    def symbol_bytes(self, name: str) -> bytes:
+        sym = self.symbol(name)
+        sec = self.section_containing(sym.st_value)
+        if sec is None:
+            raise CheckFailure(f"symbol {name} is not inside an allocated section")
+        offset = sym.st_value - sec.sh_addr
+        return sec.bytes(self.data)[offset:offset + sym.st_size]
+
+    def symbol_u32(self, name: str) -> int:
+        raw = self.symbol_bytes(name)
+        if len(raw) < 4:
+            raise CheckFailure(f"symbol {name} is smaller than 32 bits")
+        return struct.unpack_from("<I", raw, 0)[0]
+
     def check_all(self) -> None:
         section = self.section
         symbol = self.symbol
@@ -205,59 +262,64 @@ class Checker:
                    f"ehsize={self.header[7]} phentsize={self.header[8]} "
                    f"shentsize={self.header[10]}")
 
-        # --- entry point and vectors --------------------------------------
-        self.check("entry point is 0x00010000", self.entry == EXPECTED_IMAGE_BASE,
+        # --- entry point and low vector table -----------------------------
+        self.check("entry point is 0x00010000",
+                   self.entry == EXPECTED_IMAGE_BASE,
                    f"e_entry=0x{self.entry:08x}")
-
-        start = symbol("_start")
-        reset = symbol("reset_handler")
-        kernel = symbol("kernel_main")
-        self.check("_start is at image base", start.st_value == EXPECTED_IMAGE_BASE,
-                   f"_start=0x{start.st_value:08x}")
-        self.check("_start is a global function", start.type == 2 and start.bind == 1,
-                   f"type={start.type} bind={start.bind}")
-        self.check("_start covers the 8-word vector table", start.st_size == 32,
-                   f"size={start.st_size}")
-        self.check("reset_handler is a function", reset.type == 2)
-        self.check("kernel_main is a function", kernel.type == 2)
 
         vectors = section(".vectors")
         text = section(".text")
-        self.check(".vectors is at image base", vectors.sh_addr == EXPECTED_IMAGE_BASE,
+        start = symbol("_start")
+        reset = symbol("reset_handler")
+        kernel = symbol("kernel_main")
+
+        self.check("_start is at 0x00010000",
+                   start.st_value == EXPECTED_IMAGE_BASE,
+                   f"_start=0x{start.st_value:08x}")
+        self.check("_start is a global function",
+                   start.type == 2 and start.bind == 1,
+                   f"type={start.type} bind={start.bind}")
+        self.check("reset_handler is at _start",
+                   reset.st_value == start.st_value,
+                   f"reset_handler=0x{reset.st_value:08x}")
+        self.check("reset_handler is a function", reset.type == 2)
+        self.check("kernel_main is a function", kernel.type == 2)
+
+        self.check(".vectors is at address 0", vectors.sh_addr == EXPECTED_VECTOR_BASE,
                    f"addr=0x{vectors.sh_addr:08x}")
         self.check(".vectors is executable and allocated",
                    (vectors.sh_flags & (SHF_ALLOC | SHF_EXECINSTR))
                    == (SHF_ALLOC | SHF_EXECINSTR),
                    f"flags=0x{vectors.sh_flags:x}")
-        self.check(".vectors is exactly 32 bytes", vectors.sh_size == 32,
+        self.check(".vectors is exactly 32 bytes",
+                   vectors.sh_size == EXPECTED_VECTOR_SIZE,
                    f"size={vectors.sh_size}")
-        self.check("reset_handler lives in .text",
-                   text.sh_addr <= reset.st_value < text.sh_addr + text.sh_size)
+        self.check(".text starts at the image base",
+                   text.sh_addr == EXPECTED_IMAGE_BASE,
+                   f"addr=0x{text.sh_addr:08x}")
+        self.check("_start and reset_handler live in .text",
+                   text.sh_addr <= start.st_value < text.sh_addr + text.sh_size)
         self.check("kernel_main lives in .text",
                    text.sh_addr <= kernel.st_value < text.sh_addr + text.sh_size)
 
         vector_data = vectors.bytes(self.data)
-        if len(vector_data) == 32:
+        if len(vector_data) == EXPECTED_VECTOR_SIZE:
             words = struct.unpack("<8I", vector_data)
-            target = arm_branch_target(words[0], vectors.sh_addr)
-            self.check("reset vector branches to reset_handler",
-                       target == reset.st_value,
-                       f"vector target=0x{target:08x} "
-                       f"reset_handler=0x{reset.st_value:08x}")
-            for index in range(1, 8):
-                address = vectors.sh_addr + index * 4
+            for index, (name, offset) in enumerate(EXPECTED_VECTORS):
+                address = vectors.sh_addr + offset
                 target = arm_branch_target(words[index], address)
-                self.check(f"vector {index} is a self-loop trap",
-                           target == address,
-                           f"vector target=0x{target:08x} address=0x{address:08x}")
+                expected = symbol(name).st_value
+                self.check(f"vector {offset:#04x} branches to {name}",
+                           target == expected,
+                           f"target=0x{target:08x} expected=0x{expected:08x}")
+                self.check(f"vector {offset:#04x} has a defined target",
+                           target >= 0)
         else:
             self.check("vector table is readable", False,
                        f"got {len(vector_data)} bytes")
 
         # --- section layout ------------------------------------------------
         rodata = section(".rodata")
-        # A kernel with no mutable initialised data legitimately has no .data
-        # output section. Treat it as an empty range at the end of .rodata.
         data_section = self.sections.get(".data")
         data_addr = (rodata.sh_addr + rodata.sh_size
                      if data_section is None else data_section.sh_addr)
@@ -269,14 +331,15 @@ class Checker:
                    text.sh_size > 0
                    and (text.sh_flags & (SHF_ALLOC | SHF_EXECINSTR))
                    == (SHF_ALLOC | SHF_EXECINSTR))
-        self.check(".rodata contains the K1 banner",
-                   EXPECTED_MESSAGE in rodata.bytes(self.data))
+        for message in REQUIRED_MESSAGES:
+            self.check(f".rodata contains {message[:-1].decode()!r}",
+                       message in rodata.bytes(self.data))
         self.check(".bss is NOBITS", bss.sh_type == SHT_NOBITS,
                    f"sh_type={bss.sh_type}")
         self.check(".stack is NOBITS", stack.sh_type == SHT_NOBITS,
                    f"sh_type={stack.sh_type}")
 
-        self.check(".text follows .vectors",
+        self.check(".text follows the vector table",
                    text.sh_addr >= vectors.sh_addr + vectors.sh_size)
         self.check(".rodata follows .text",
                    rodata.sh_addr >= text.sh_addr + text.sh_size)
@@ -288,13 +351,28 @@ class Checker:
         self.check(".stack follows .bss",
                    stack.sh_addr >= bss.sh_addr + bss.sh_size)
 
+        # Nothing allocated may hide in the reserved 0x20..0xFFFF gap.
+        hidden = [sec.name for sec in self.raw_sections
+                  if (sec.sh_flags & SHF_ALLOC) and sec.sh_size > 0
+                  and sec.name != ".vectors"
+                  and sec.sh_addr < EXPECTED_IMAGE_BASE]
+        self.check("reserved low memory contains no other allocated section",
+                   not hidden, ", ".join(hidden))
+
+        # --- linker symbols and stacks -------------------------------------
         bss_start = symbol("__bss_start__")
         bss_end = symbol("__bss_end__")
-        stack_bottom = symbol("__stack_bottom__")
-        stack_top = symbol("__stack_top__")
         image_start = symbol("__image_start__")
         image_end = symbol("__image_end__")
+        vectors_start = symbol("__vectors_start__")
+        vectors_end = symbol("__vectors_end__")
 
+        self.check("__vectors_start__ is 0",
+                   vectors_start.st_value == EXPECTED_VECTOR_BASE,
+                   f"0x{vectors_start.st_value:08x}")
+        self.check("__vectors_end__ is 32",
+                   vectors_end.st_value == EXPECTED_VECTOR_SIZE,
+                   f"0x{vectors_end.st_value:08x}")
         self.check("__bss_start__ matches .bss",
                    bss_start.st_value == bss.sh_addr,
                    f"symbol=0x{bss_start.st_value:08x} "
@@ -306,44 +384,100 @@ class Checker:
         self.check("BSS size is positive and 8-byte aligned",
                    bss.sh_size > 0 and bss.sh_size % 8 == 0,
                    f"size={bss.sh_size}")
-        self.check("__stack_bottom__ matches .stack",
-                   stack_bottom.st_value == stack.sh_addr,
-                   f"symbol=0x{stack_bottom.st_value:08x} "
-                   f"section=0x{stack.sh_addr:08x}")
-        self.check("__stack_top__ matches .stack end",
-                   stack_top.st_value == stack.sh_addr + stack.sh_size,
-                   f"symbol=0x{stack_top.st_value:08x} "
-                   f"section end=0x{stack.sh_addr + stack.sh_size:08x}")
-        self.check("stack is 16 KiB", stack.sh_size == EXPECTED_STACK_SIZE,
-                   f"size={stack.sh_size}")
-        self.check("stack top is 8-byte aligned", stack_top.st_value % 8 == 0,
-                   f"top=0x{stack_top.st_value:08x}")
-        self.check("__image_start__ is image base",
+        self.check("__image_start__ is 0x00010000",
                    image_start.st_value == EXPECTED_IMAGE_BASE,
                    f"0x{image_start.st_value:08x}")
-        self.check("__image_end__ is end of .stack",
+        self.check("__image_start__ is the start of .text",
+                   image_start.st_value == text.sh_addr,
+                   f"0x{image_start.st_value:08x}")
+        self.check("__image_end__ is the end of .stack",
                    image_end.st_value == stack.sh_addr + stack.sh_size,
                    f"0x{image_end.st_value:08x}")
-        self.check("image fits the 64 KiB K1 budget",
+        self.check("image fits the 64 KiB K2 budget",
                    image_end.st_value - image_start.st_value <= IMAGE_BUDGET,
                    f"size={image_end.st_value - image_start.st_value} bytes")
         self.check("image fits emulated RAM",
                    image_end.st_value <= EXPECTED_RAM_BASE + EXPECTED_RAM_SIZE,
                    f"end=0x{image_end.st_value:08x}")
 
+        expected_stack_top = None
+        for mode, size in EXPECTED_STACK_SIZES.items():
+            bottom = symbol(f"__{mode}_stack_bottom__")
+            top = symbol(f"__{mode}_stack_top__")
+            self.check(f"{mode.upper()} stack has the expected size",
+                       top.st_value - bottom.st_value == size,
+                       f"size={top.st_value - bottom.st_value} expected={size}")
+            self.check(f"{mode.upper()} stack bottom is 8-byte aligned",
+                       bottom.st_value % 8 == 0,
+                       f"0x{bottom.st_value:08x}")
+            self.check(f"{mode.upper()} stack top is 8-byte aligned",
+                       top.st_value % 8 == 0,
+                       f"0x{top.st_value:08x}")
+            if mode == "svc":
+                self.check("__stack_bottom__ aliases the SVC stack",
+                           symbol("__stack_bottom__").st_value == bottom.st_value)
+                self.check("__stack_top__ aliases the SVC stack",
+                           symbol("__stack_top__").st_value == top.st_value)
+                self.check("__stack_size__ is 16 KiB",
+                           symbol("__stack_size__").st_value ==
+                           EXPECTED_STACK_SIZES["svc"])
+            expected_stack_top = top.st_value
+
+        self.check("stack regions are contiguous and ordered",
+                   self.symbol("__svc_stack_top__").st_value ==
+                   self.symbol("__und_stack_bottom__").st_value
+                   and self.symbol("__und_stack_top__").st_value ==
+                   self.symbol("__abt_stack_bottom__").st_value
+                   and self.symbol("__abt_stack_top__").st_value ==
+                   self.symbol("__irq_stack_bottom__").st_value
+                   and self.symbol("__irq_stack_top__").st_value ==
+                   self.symbol("__fiq_stack_bottom__").st_value)
+        self.check("image ends at the top of the last stack",
+                   expected_stack_top == image_end.st_value,
+                   f"stack top=0x{expected_stack_top:08x} "
+                   f"image end=0x{image_end.st_value:08x}")
+        self.check("__k2_sctlr_boot is in .bss",
+                   self.symbol("__k2_sctlr_boot").st_shndx == bss.index)
+
+        # --- compiled exception frame ABI ----------------------------------
+        frame_size = self.symbol_u32("k2_exception_frame_size")
+        frame_align = self.symbol_u32("k2_exception_frame_align")
+        self.check("compiled exception frame is 72 bytes",
+                   frame_size == 72, f"value={frame_size}")
+        self.check("compiled exception frame is 8-byte aligned",
+                   frame_align == 8, f"value={frame_align}")
+
         # --- program headers ----------------------------------------------
         loads = [ph for ph in self.program_headers if ph[0] == PT_LOAD]
-        self.check("at least two PT_LOAD segments", len(loads) >= 2,
+        self.check("at least three PT_LOAD segments", len(loads) >= 3,
                    f"count={len(loads)}")
         self.check("no PT_DYNAMIC / PT_INTERP",
                    all(ph[0] not in (PT_DYNAMIC, PT_INTERP)
                        for ph in self.program_headers))
+
+        vector_loads = [ph for ph in loads
+                        if ph[2] == EXPECTED_VECTOR_BASE
+                        and ph[3] == EXPECTED_VECTOR_BASE]
+        text_loads = [ph for ph in loads if ph[3] == EXPECTED_IMAGE_BASE]
+        self.check("vector table has its own PT_LOAD at address 0",
+                   len(vector_loads) == 1, f"count={len(vector_loads)}")
+        if vector_loads:
+            ph = vector_loads[0]
+            self.check("vector segment is exactly 32 bytes on disk",
+                       ph[4] == EXPECTED_VECTOR_SIZE,
+                       f"p_filesz={ph[4]}")
+            self.check("vector segment is exactly 32 bytes in memory",
+                       ph[5] == EXPECTED_VECTOR_SIZE,
+                       f"p_memsz={ph[5]}")
+            self.check("vector segment is executable",
+                       (ph[6] & 1) != 0, f"p_flags=0x{ph[6]}")
+        self.check("kernel text has a PT_LOAD at 0x00010000",
+                   len(text_loads) >= 1, f"count={len(text_loads)}")
+
         if loads:
-            self.check("first PT_LOAD starts at image base",
-                       loads[0][3] == EXPECTED_IMAGE_BASE,
+            self.check("first PT_LOAD starts at address 0",
+                       loads[0][3] == EXPECTED_VECTOR_BASE,
                        f"p_paddr=0x{loads[0][3]:08x}")
-            self.check("first PT_LOAD is executable",
-                       (loads[0][6] & 1) != 0, f"p_flags=0x{loads[0][6]}")
             self.check("all segments have p_vaddr == p_paddr",
                        all(ph[2] == ph[3] for ph in loads))
             self.check("all segments have p_memsz >= p_filesz",
@@ -351,10 +485,48 @@ class Checker:
             self.check("all segments fit emulated RAM",
                        all(ph[3] + ph[5] <= EXPECTED_RAM_BASE + EXPECTED_RAM_SIZE
                            for ph in loads))
+            self.check("no PT_LOAD segments overlap",
+                       all(a[3] + a[5] <= b[3] or b[3] + b[5] <= a[3]
+                           for i, a in enumerate(loads)
+                           for b in loads[i + 1:]))
             self.check("entry point is inside a loaded segment",
                        any(ph[2] <= self.entry < ph[2] + ph[5] for ph in loads))
             self.check("some PT_LOAD is writable",
                        any((ph[6] & 2) != 0 for ph in loads))
+
+        # --- profile-specific fault generators -----------------------------
+        if self.profile == "normal":
+            self.check("normal profile contains the K2 IDLE marker",
+                       b"K2 IDLE\x00" in rodata.bytes(self.data))
+            self.check("normal profile does not contain a fault test selector",
+                       b"K2 test: undefined\x00" not in rodata.bytes(self.data)
+                       and b"K2 test: data-abort\x00" not in rodata.bytes(self.data))
+        elif self.profile == "undef":
+            self.check("undef profile contains the test selector",
+                       b"K2 test: undefined\x00" in rodata.bytes(self.data))
+            raw = self.symbol_bytes("k2_trigger_undef")
+            words = [struct.unpack_from("<I", raw, offset)[0]
+                     for offset in range(0, len(raw) - 3, 4)]
+            self.check("k2_trigger_undef contains a real UDF instruction",
+                       UDF_WORD in words,
+                       f"words={[f'0x{w:08x}' for w in words]}")
+        elif self.profile == "data-abort":
+            self.check("data-abort profile contains the test selector",
+                       b"K2 test: data-abort\x00" in rodata.bytes(self.data))
+            raw = self.symbol_bytes("k2_trigger_data_abort")
+            words = [struct.unpack_from("<I", raw, offset)[0]
+                     for offset in range(0, len(raw) - 3, 4)]
+            pair = any(words[index] == ADD_R0_R0_1
+                       and words[index + 1] == LDR_R1_R0
+                       for index in range(len(words) - 1))
+            self.check("k2_trigger_data_abort does add #1 then LDR [r0]",
+                       pair, f"words={[f'0x{w:08x}' for w in words]}")
+            probe = symbol("k2_alignment_probe")
+            self.check("alignment probe is 16-byte aligned",
+                       probe.st_value % 16 == 0,
+                       f"0x{probe.st_value:08x}")
+            self.check("alignment probe is four words",
+                       probe.st_size == 16, f"size={probe.st_size}")
 
         # --- symbol hygiene ------------------------------------------------
         undefined = [name for name, sym in self.symbols.items()
@@ -383,8 +555,8 @@ class Checker:
             expected[offset:offset + sec.sh_size] = sec.bytes(self.data)
 
         actual = bin_path.read_bytes()
-        self.check("flat binary starts at image base", start == EXPECTED_IMAGE_BASE,
-                   f"start=0x{start:08x}")
+        self.check("flat binary starts at the vector base",
+                   start == EXPECTED_VECTOR_BASE, f"start=0x{start:08x}")
         self.check("flat binary size matches allocated sections",
                    len(actual) == len(expected),
                    f"actual={len(actual)} expected={len(expected)}")
@@ -409,9 +581,10 @@ class Checker:
 
         print()
         if failed:
-            print(f"ELF CHECK: FAIL ({failed} failed / {len(self.checks)} checks)")
+            print(f"ELF CHECK [{self.profile}]: FAIL "
+                  f"({failed} failed / {len(self.checks)} checks)")
             return 1
-        print(f"ELF CHECK: PASS ({len(self.checks)} checks)")
+        print(f"ELF CHECK [{self.profile}]: PASS ({len(self.checks)} checks)")
         return 0
 
 
@@ -426,20 +599,15 @@ def arm_branch_target(word: int, address: int) -> int:
 
 
 def main(argv=None) -> int:
-    args = list(sys.argv[1:] if argv is None else argv)
-    if not args:
-        print("usage: elfcheck.py <kernel.elf> [--bin <kernel.bin>]",
-              file=sys.stderr)
-        return 2
+    parser = argparse.ArgumentParser(description="MinitOS K2 ELF checker")
+    parser.add_argument("elf", help="kernel ELF")
+    parser.add_argument("--bin", help="flat binary")
+    parser.add_argument("--profile", default="normal",
+                        choices=["normal", "undef", "data-abort"])
+    args = parser.parse_args(argv)
 
-    elf_path = Path(args[0])
-    bin_path = None
-    if "--bin" in args:
-        index = args.index("--bin")
-        if index + 1 >= len(args):
-            print("--bin requires a path", file=sys.stderr)
-            return 2
-        bin_path = Path(args[index + 1])
+    elf_path = Path(args.elf)
+    bin_path = Path(args.bin) if args.bin else None
 
     if not elf_path.is_file():
         print(f"ELF CHECK: FAIL: missing {elf_path}", file=sys.stderr)
@@ -449,7 +617,7 @@ def main(argv=None) -> int:
         return 2
 
     try:
-        checker = Checker(elf_path)
+        checker = Checker(elf_path, args.profile)
         checker.check_all()
         if bin_path is not None:
             checker.check_binary(bin_path)

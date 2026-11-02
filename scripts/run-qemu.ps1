@@ -1,5 +1,5 @@
 param(
-    [string]$Elf = "build/minitos-k1.elf",
+    [string]$Elf = "build/normal/minitos-k2.elf",
     [string]$Qemu = $env:QEMU_SYSTEM_ARM
 )
 

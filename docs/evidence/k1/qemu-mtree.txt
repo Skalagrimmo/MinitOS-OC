@@ -1,0 +1,59 @@
+# QEMU emulator version 11.1.0 (v11.1.0-12130-ge470268ff4)
+# command: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -qmp stdio -serial none -display none
+# QMP human-monitor-command: info mtree
+
+address-space: I/O
+
+  0000000000000000-000000000000ffff (prio 0, container): io
+
+
+
+address-space: cpu-memory-0
+
+address-space: memory
+
+  0000000000000000-ffffffffffffffff (prio 0, container): system
+
+    0000000000000000-0000000007ffffff (prio 0, ram): integrator.ram
+
+    0000000010000000-00000000107fffff (prio 0, i/o): integratorcm
+
+    0000000013000000-0000000013000fff (prio 0, i/o): icp_pit
+
+    0000000014000000-00000000147fffff (prio 0, i/o): icp-pic
+
+    0000000015000000-0000000015000fff (prio 0, i/o): pl031
+
+    0000000016000000-0000000016000fff (prio 0, i/o): pl011
+
+    0000000017000000-0000000017000fff (prio 0, i/o): pl011
+
+    0000000018000000-0000000018000fff (prio 0, i/o): pl050
+
+    0000000019000000-0000000019000fff (prio 0, i/o): pl050
+
+    000000001a000000-000000001affffff (prio 0, i/o): dbg-leds
+
+    000000001c000000-000000001c000fff (prio 0, i/o): pl181
+
+    000000001d000000-000000001d000fff (prio 0, i/o): pl041
+
+    0000000080000000-0000000087ffffff (prio 0, ram): alias ram.alias @integrator.ram 0000000000000000-0000000007ffffff
+
+    00000000c0000000-00000000c0000fff (prio 0, i/o): pl110
+
+    00000000c8000000-00000000c800000f (prio 0, i/o): smc91c111-mmio
+
+    00000000ca000000-00000000ca7fffff (prio 0, i/o): icp-pic
+
+    00000000cb000000-00000000cb7fffff (prio 0, i/o): icp_ctrl_regs
+
+
+
+memory-region: integrator.ram
+
+  0000000000000000-0000000007ffffff (prio 0, ram): integrator.ram
+
+
+
+

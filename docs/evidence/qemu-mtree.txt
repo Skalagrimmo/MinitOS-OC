@@ -2,9 +2,6 @@
 # command: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -qmp stdio -serial none -display none
 # QMP human-monitor-command: info mtree
 
-address-space: I/O
-  0000000000000000-000000000000ffff (prio 0, container): io
-
 address-space: cpu-memory-0
 address-space: memory
   0000000000000000-ffffffffffffffff (prio 0, container): system
@@ -25,6 +22,9 @@ address-space: memory
     00000000c8000000-00000000c800000f (prio 0, i/o): smc91c111-mmio
     00000000ca000000-00000000ca7fffff (prio 0, i/o): icp-pic
     00000000cb000000-00000000cb7fffff (prio 0, i/o): icp_ctrl_regs
+
+address-space: I/O
+  0000000000000000-000000000000ffff (prio 0, container): io
 
 memory-region: integrator.ram
   0000000000000000-0000000007ffffff (prio 0, ram): integrator.ram

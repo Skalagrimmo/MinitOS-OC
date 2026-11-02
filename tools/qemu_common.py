@@ -1,4 +1,4 @@
-"""Shared QEMU discovery and process helpers for MinitOS K1 tools."""
+"""Shared QEMU discovery and process helpers for MinitOS K2 tools."""
 
 from __future__ import annotations
 

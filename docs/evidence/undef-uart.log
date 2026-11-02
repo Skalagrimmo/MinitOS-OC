@@ -1,0 +1,28 @@
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+K2 vectors: low @ 0x00000000
+K2 sctlr: 0x00050078
+K2 cpsr: 0x600001d3
+K2 frame bytes: 0x00000048
+K2 frame align: 0x00000008
+K2 stack svc: 0x00010d50 - 0x00014d50
+K2 stack und: 0x00014d50 - 0x00015d50
+K2 stack abt: 0x00015d50 - 0x00016d50
+K2 stack irq: 0x00016d50 - 0x00017550
+K2 stack fiq: 0x00017550 - 0x00017950
+K2 test: undefined
+EXCEPTION: UNDEFINED INSTRUCTION
+vector: 0x00000004
+mode: UND
+handler_cpsr: 0x600001db
+lr: 0x00010240
+spsr: 0x600001d3
+spsr_mode: SVC
+fault_pc: 0x0001023c
+r0: 0x4b2d0001
+r1: 0x4b2d0002
+r2: 0x16000018
+r12: 0x4b2d000c
+K2 EXCEPTION CAPTURED

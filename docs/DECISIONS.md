@@ -1,8 +1,8 @@
 # Engineering Decision Journal
 
 Each entry records the decision, the alternatives considered, and the
-consequence accepted by K1. These are decisions, not claims that the
-alternatives are invalid.
+consequence accepted by the stage that made it (K1 or K2). These are decisions,
+not claims that the alternatives are invalid.
 
 ---
 
@@ -279,3 +279,182 @@ reproducibility.
 **Consequence.** The ELF is larger on disk (18,200 bytes) but the loadable
 image is small (1,133 bytes). Debug symbols remain available, and the two
 builds compare byte-identically.
+
+---
+
+## ADR-017 — Preserve K1 as a tag and evolve the same tree into K2
+
+**Context.** K2 changes the boot path, vector location and stack layout. The K1
+result must remain reproducible and auditable.
+
+**Decision.** Tag the verified K1 commit as `k1-baseline` and push the tag
+before modifying the tree. Build K2 in place, keep the K1 acceptance report,
+and archive the original K1 evidence under `docs/evidence/k1/`.
+
+**Alternatives.** Fork a separate K2 repository; rewrite history; keep only the
+latest state.
+
+**Consequence.** K1 can be checked out and rebuilt exactly as accepted. K2
+documentation is separate from K1 documentation and does not overwrite K1
+claims. The archive is a copied snapshot, not a second source of truth.
+
+---
+
+## ADR-018 — Use the real low-vector table at address 0
+
+**Context.** K1 placed 32 bytes of vector-shaped data at `0x00010000`, but
+`SCTLR.V` was left at its reset value and the CPU never used that table. K2
+must have an architecturally active table.
+
+**Decision.** Clear `SCTLR.V`, verify the read-back, and link `.vectors` as its
+own executable `PT_LOAD` at virtual and physical address 0. Keep the kernel
+image and ELF entry point at `0x00010000`.
+
+**Alternatives.** High vectors at `0xFFFF0000`; copy the table at runtime;
+keep the K1 table and claim it is active.
+
+**Consequence.** The table is real and observable in the ELF, linker map and
+disassembly. The reset slot at 0 and `_start` at `0x10000` enter the same
+handler, so QEMU's `e_entry` path and the architectural reset vector agree.
+Address 0 must be loadable on the target; this is verified on QEMU and listed
+as a hardware assumption.
+
+---
+
+## ADR-019 — Install every banked stack before the first C call
+
+**Context.** An exception can occur at any instruction. If the entered mode has
+no valid stack, the handler faults recursively with no diagnostic.
+
+**Decision.** Allocate SVC 16 KiB, UND 4 KiB, ABT 4 KiB, IRQ 2 KiB and FIQ
+1 KiB stacks, 8-byte aligned and contiguous after `.bss`. `reset_handler`
+switches through the modes and sets each banked SP before clearing BSS and
+calling C.
+
+**Alternatives.** Allocate only SVC/UND/ABT; share the SVC stack; allocate
+stacks lazily.
+
+**Consequence.** Every vector has a valid stack from the first instruction after
+startup. The linker and ELF checker enforce sizes, ordering and alignment.
+Stack overflow is still undetected, and the sizes are engineering choices, not
+measured high-water marks.
+
+---
+
+## ADR-020 — Use a fixed 72-byte exception frame declared twice
+
+**Context.** Assembly must build the frame and C must consume it. A silent
+layout mismatch would produce plausible-looking but wrong diagnostics.
+
+**Decision.** Define `struct exception_frame` as 18 words with named offsets,
+`_Static_assert` its size/alignment/offsets in C, duplicate the offsets as
+`.equ` constants in assembly, and export the compiled `sizeof`/`_Alignof` in
+`.rodata.k2abi` for `tools/elfcheck.py`.
+
+**Alternatives.** Pass registers individually; use a packed byte buffer; rely
+on a comment as the ABI.
+
+**Consequence.** A layout change fails the C build, the assembly constants must
+be updated deliberately, and the ELF check catches a stale object. The frame is
+a multiple of 8 bytes, preserving AAPCS stack alignment at the C call.
+
+---
+
+## ADR-021 — Run handlers in the entered mode and make them fail-stop
+
+**Context.** K2 needs trustworthy diagnostics, not recovery. Switching to SVC
+would require a nested stack and would hide which mode the CPU actually
+entered.
+
+**Decision.** Each entry stub saves the frame on the banked stack of the mode
+the CPU entered and calls C in that mode. IRQ/FIQ are masked. Handlers print
+the vector, handler CPSR, SPSR, LR, fault PC, DFSR/DFAR and sentinels, then
+halt. SVC/prefetch/IRQ/FIQ use a separate unexpected-path handler that also
+halts. The reserved vector is a stack-free self-loop.
+
+**Alternatives.** Switch to SVC; return after printing; retry the instruction;
+use a QEMU semihosting exit.
+
+**Consequence.** The reported `mode` value is direct runtime proof of the
+entered mode. The handler never returns into an unknown context, and the
+harness can assert that the terminal marker is the last output and that no
+reboot occurred. Recovery remains future work.
+
+---
+
+## ADR-022 — Generate faults with real instructions
+
+**Context.** A kernel that only contains exception-related strings or calls a
+handler directly does not prove that the CPU took an exception.
+
+**Decision.** The `undef` profile executes ARM `udf #0` (`0xE7F000F0`). The
+`data-abort` profile sets `SCTLR.A=1` and `SCTLR.U=1`, verifies the read-back,
+then executes `add r0, #1; ldr r1, [r0]` from a 16-byte-aligned probe. Both
+generators load sentinel values first. If the fault does not fire, they return
+and the kernel prints `K2 TEST FAILED` and halts.
+
+**Alternatives.** Call `exception_dispatch()` directly; use an undefined
+address; rely on a compiler-generated trap.
+
+**Consequence.** The runtime evidence includes the real vector, mode, SPSR/LR
+relationship, fault PC and sentinels. `tools/elfcheck.py` also decodes the UDF
+word and the `add`/`ldr` pair in the profile ELFs, so the test cannot be
+replaced by text alone.
+
+---
+
+## ADR-023 — Build one image per fault profile
+
+**Context.** The handlers are fail-stop, so a single image cannot continue from
+Undefined Instruction to a Data Abort test.
+
+**Decision.** Compile the same sources with `-DMINITOS_TEST_MODE=0/1/2` into
+`build/normal`, `build/undef` and `build/data-abort`. Each profile gets its own
+ELF, binary, disassembly, map, hashes and QEMU serial log.
+
+**Alternatives.** Runtime menu over UART; separate source trees; one image with
+a resettable fault path.
+
+**Consequence.** Every profile is independently reproducible and has its own
+evidence. Build time and artifact count increase, and the three images differ
+slightly in size. A future interactive test harness can replace this without
+changing the exception ABI.
+
+---
+
+## ADR-024 — Accept only runtime evidence for the exception path
+
+**Context.** Static text in `.rodata` and a clean link do not prove that the CPU
+vectors through the table.
+
+**Decision.** The QEMU harness requires, per profile, the terminal marker, the
+expected vector offset, the handler mode, the SPSR mode, the LR/fault-PC
+relationship, the fault PC inside the kernel image, the sentinel registers and
+(for Data Abort) DFSR/DFAR. It also requires an empty guest-error log, the
+marker to be the last line and no reboot banner. The acceptance script is
+fail-fast: a later PASS is never printed after an earlier failure.
+
+**Alternatives.** Inspect the ELF only; run QEMU for a fixed time; grep for a
+single string.
+
+**Consequence.** The K2 PASS is tied to captured UART logs and a recorded
+command. The checks are more brittle to intentional output changes, which is
+accepted because output is part of the diagnostic contract.
+
+---
+
+## ADR-025 — Keep diagnostics on the polled PL011 only
+
+**Context.** Semihosting or a QEMU-specific device would make the fault path
+depend on the emulator rather than the kernel's own driver.
+
+**Decision.** The handlers use the same `console`/PL011 path as normal output.
+No semihosting, no debugcon, no QEMU shutdown register, no host callbacks.
+
+**Alternatives.** ARM semihosting `SYS_WRITE0` and `SYS_EXIT`; QEMU debugcon;
+`-serial stdio` parsing.
+
+**Consequence.** The diagnostics exercise the real driver stack and remain
+portable to a board with a PL011. A fault before UART initialisation cannot be
+printed, but it still halts safely. The harness terminates QEMU from the host,
+so the kernel needs no emulator-specific exit.

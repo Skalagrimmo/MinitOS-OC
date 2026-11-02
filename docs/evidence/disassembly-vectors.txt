@@ -1,0 +1,15 @@
+
+C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+00000000 <_vectors>:
+   0:	ea003ffe 	b	10000 <_start>
+   4:	ea004033 	b	100d8 <undef_entry>
+   8:	ea00404f 	b	1014c <svc_entry>
+   c:	ea00405c 	b	10184 <prefetch_entry>
+  10:	ea00403e 	b	10110 <data_abort_entry>
+  14:	ea004084 	b	1022c <reserved_entry>
+  18:	ea004067 	b	101bc <irq_entry>
+  1c:	ea004074 	b	101f4 <fiq_entry>

@@ -3,6 +3,13 @@
 **Status: PASS** for the checks listed below, on the recorded host and
 toolchain. This document does not claim any test that was not executed.
 
+> **Baseline notice.** K1 is preserved as Git tag `k1-baseline` (commit
+> `6964e66`). K2 supersedes this stage and has its own report in
+> [`K2_ACCEPTANCE.md`](K2_ACCEPTANCE.md). The K1 evidence files are archived
+> under [`evidence/k1/`](evidence/k1/) so K2 acceptance runs cannot overwrite
+> them. K1 did not implement active exception handling, per-mode stacks or the
+> low vector table; those are K2 results.
+
 ## 1. Environment
 
 | Item | Value |
@@ -36,7 +43,7 @@ It executes, in order:
 5. `python tools/build.py repro`
 
 The full captured log is
-[`docs/evidence/acceptance-run.txt`](evidence/acceptance-run.txt).
+[`docs/evidence/k1/acceptance-run.txt`](evidence/k1/acceptance-run.txt).
 
 ## 3. Result matrix
 
@@ -90,7 +97,7 @@ The checker also verifies:
   - `0x10000000–0x107FFFFF` `integratorcm`.
 
 The live map is captured in
-[`docs/evidence/qemu-mtree.txt`](evidence/qemu-mtree.txt).
+[`docs/evidence/k1/qemu-mtree.txt`](evidence/k1/qemu-mtree.txt).
 
 ## 6. Runtime verification detail
 
@@ -126,9 +133,9 @@ Runtime checks that passed:
 - QEMU's `-d guest_errors` log is empty.
 
 Raw capture:
-[`docs/evidence/qemu-serial.txt`](evidence/qemu-serial.txt).
+[`docs/evidence/k1/qemu-serial.txt`](evidence/k1/qemu-serial.txt).
 Detailed checks:
-[`docs/evidence/runtime-evidence.txt`](evidence/runtime-evidence.txt).
+[`docs/evidence/k1/runtime-evidence.txt`](evidence/k1/runtime-evidence.txt).
 
 ## 7. Image size and memory
 
@@ -158,7 +165,7 @@ minitos-k1.bin: 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
 ```
 
 Evidence:
-[`docs/evidence/repro.txt`](evidence/repro.txt).
+[`docs/evidence/k1/repro.txt`](evidence/k1/repro.txt).
 
 This is a same-host, same-toolchain result. Cross-host byte identity is not
 claimed.
@@ -167,20 +174,20 @@ claimed.
 
 | File | Contents |
 |---|---|
-| `evidence/acceptance-run.txt` | full acceptance console log |
-| `evidence/qemu-serial.txt` | raw UART capture |
-| `evidence/runtime-evidence.txt` | runtime command, checks, serial output |
-| `evidence/qemu-mtree.txt` | live QMP memory map |
-| `evidence/qemu-platform.txt` | machine/CPU/map check log |
-| `evidence/sha256sums.txt` | ELF and BIN hashes |
-| `evidence/repro.txt` | double-build comparison |
-| `evidence/toolchain.txt` | compiler, linker, Python, host versions |
-| `evidence/sizes.txt` | size report |
-| `evidence/readelf-header.txt` | ELF header |
-| `evidence/readelf-program-headers.txt` | program headers |
-| `evidence/readelf-sections.txt` | section headers |
-| `evidence/readelf-symbols.txt` | symbol table |
-| `evidence/readelf-attributes.txt` | ARM ABI attributes |
+| `evidence/k1/acceptance-run.txt` | full acceptance console log |
+| `evidence/k1/qemu-serial.txt` | raw UART capture |
+| `evidence/k1/runtime-evidence.txt` | runtime command, checks, serial output |
+| `evidence/k1/qemu-mtree.txt` | live QMP memory map |
+| `evidence/k1/qemu-platform.txt` | machine/CPU/map check log |
+| `evidence/k1/sha256sums.txt` | ELF and BIN hashes |
+| `evidence/k1/repro.txt` | double-build comparison |
+| `evidence/k1/toolchain.txt` | compiler, linker, Python, host versions |
+| `evidence/k1/sizes.txt` | size report |
+| `evidence/k1/readelf-header.txt` | ELF header |
+| `evidence/k1/readelf-program-headers.txt` | program headers |
+| `evidence/k1/readelf-sections.txt` | section headers |
+| `evidence/k1/readelf-symbols.txt` | symbol table |
+| `evidence/k1/readelf-attributes.txt` | ARM ABI attributes |
 
 ## 10. Not run / not claimed
 

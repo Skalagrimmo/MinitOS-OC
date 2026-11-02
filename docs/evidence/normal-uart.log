@@ -1,0 +1,16 @@
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+K2 vectors: low @ 0x00000000
+K2 sctlr: 0x00050078
+K2 cpsr: 0x600001d3
+K2 frame bytes: 0x00000048
+K2 frame align: 0x00000008
+K2 stack svc: 0x00010c98 - 0x00014c98
+K2 stack und: 0x00014c98 - 0x00015c98
+K2 stack abt: 0x00015c98 - 0x00016c98
+K2 stack irq: 0x00016c98 - 0x00017498
+K2 stack fiq: 0x00017498 - 0x00017898
+K2 test: normal
+K2 IDLE

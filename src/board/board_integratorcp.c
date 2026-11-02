@@ -2,7 +2,7 @@
 #include "minitos/board/integratorcp.h"
 
 /*
- * K1 has exactly one build-time board. Keeping the table static and const
+ * K2 has exactly one build-time board. Keeping the table static and const
  * means it lives in .rodata and cannot be mutated by kernel code.
  */
 static const struct board integratorcp_board = {

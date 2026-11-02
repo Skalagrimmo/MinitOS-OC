@@ -1,0 +1,443 @@
+
+Discarded input sections
+
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .text.k2test   0x00000000       0x4c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .data.k2test   0x00000000       0x10 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .text.cpu_read_sctlr
+                0x00000000        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .text.cpu_write_sctlr
+                0x00000000        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .text.cpu_sync
+                0x00000000       0x10 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .text.cpu_read_dfsr
+                0x00000000        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .text.cpu_read_dfar
+                0x00000000        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .rodata.test_failed.str1.4
+                0x00000000       0x11 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .text.test_failed
+                0x00000000       0x24 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .rodata.k2_undef_test.str1.4
+                0x00000000       0x23 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .text.k2_undef_test
+                0x00000000       0x14 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .rodata.k2_data_abort_test.str1.4
+                0x00000000       0x82 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .text.k2_data_abort_test
+                0x00000000       0xa0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_info    0x00000000      0x355 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_abbrev  0x00000000      0x19b C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_loclists
+                0x00000000       0x75 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_aranges
+                0x00000000       0x30 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_rnglists
+                0x00000000       0x20 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_line    0x00000000      0x19c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_str     0x00000000      0x2d4 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .debug_frame   0x00000000       0x58 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .ARM.attributes
+                0x00000000       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+ .text          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+ .data          0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+ .bss           0x00000000        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+ .comment       0x00000000       0x3a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+VECTORS          0x00000000         0x00000020         xr
+RAM              0x00010000         0x00010000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x00000000                        __ram_base__ = 0x0
+                0x08000000                        __ram_end__ = 0x8000000
+                0x00000000                        __vectors_start__ = ORIGIN (VECTORS)
+                0x00000020                        __vectors_end__ = (ORIGIN (VECTORS) + LENGTH (VECTORS))
+                0x00004000                        __svc_stack_size__ = 0x4000
+                0x00001000                        __und_stack_size__ = 0x1000
+                0x00001000                        __abt_stack_size__ = 0x1000
+                0x00000800                        __irq_stack_size__ = 0x800
+                0x00000400                        __fiq_stack_size__ = 0x400
+                0x00004000                        __stack_size__ = __svc_stack_size__
+                0x00006c00                        __stack_total_size__ = ((((__svc_stack_size__ + __und_stack_size__) + __abt_stack_size__) + __irq_stack_size__) + __fiq_stack_size__)
+
+.vectors        0x00000000       0x20
+ *(.vectors)
+ .vectors       0x00000000       0x20 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+                0x00000000                _vectors
+                0x00000020                        . = ALIGN (0x20)
+                0x00010000                        . = ORIGIN (RAM)
+
+.text           0x00010000      0x9a4
+                0x00010000                        __image_start__ = .
+ *(.text.boot)
+ .text.boot     0x00010000       0xd8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+                0x00010000                _start
+                0x00010000                reset_handler
+ *(.text .text.*)
+ .text.exception
+                0x000100d8      0x158 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+                0x000100d8                undef_entry
+                0x00010110                data_abort_entry
+                0x0001014c                svc_entry
+                0x00010184                prefetch_entry
+                0x000101bc                irq_entry
+                0x000101f4                fiq_entry
+                0x0001022c                reserved_entry
+ .text.cpu_read_midr
+                0x00010230        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+                0x00010230                cpu_read_midr
+ .text.cpu_read_cpsr
+                0x00010238        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+                0x00010238                cpu_read_cpsr
+ .text.write_hex_field
+                0x00010240       0x2c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .text.write_common_fields
+                0x0001026c       0xb4 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .text.write_sentinel_registers
+                0x00010320       0x4c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .text.exception_unexpected
+                0x0001036c       0x78 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                0x0001036c                exception_unexpected
+ .text.exception_dispatch
+                0x000103e4       0xb0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                0x000103e4                exception_dispatch
+ .text.board_current
+                0x00010494        0xc C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+                0x00010494                board_current
+ .text.pl011_init
+                0x000104a0       0x54 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+                0x000104a0                pl011_init
+ .text.pl011_write_byte
+                0x000104f4       0x1c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+                0x000104f4                pl011_write_byte
+ .text.console_init
+                0x00010510       0x38 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                0x00010510                console_init
+ .text.console_putc
+                0x00010548       0x5c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                0x00010548                console_putc
+ .text.console_write
+                0x000105a4       0x68 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                0x000105a4                console_write
+ .text.console_write_line
+                0x0001060c       0xac C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                0x0001060c                console_write_line
+ .text.console_write_hex32
+                0x000106b8       0xe0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                0x000106b8                console_write_hex32
+ .text.write_stack
+                0x00010798       0x64 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+ .text.kernel_main
+                0x000107fc      0x1a8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+                0x000107fc                kernel_main
+
+.glue_7         0x000109a4        0x0
+ .glue_7        0x000109a4        0x0 linker stubs
+
+.glue_7t        0x000109a4        0x0
+ .glue_7t       0x000109a4        0x0 linker stubs
+
+.vfp11_veneer   0x000109a4        0x0
+ .vfp11_veneer  0x000109a4        0x0 linker stubs
+
+.v4_bx          0x000109a4        0x0
+ .v4_bx         0x000109a4        0x0 linker stubs
+
+.iplt           0x000109a4        0x0
+ .iplt          0x000109a4        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+
+.rodata         0x000109a4      0x2e1
+ *(.rodata.k2abi)
+ .rodata.k2abi  0x000109a4        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                0x000109a4                k2_exception_frame_align
+                0x000109a8                k2_exception_frame_size
+ *(.rodata .rodata.*)
+ .rodata.write_common_fields.str1.4
+                0x000109ac      0x218 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                                 0x48 (size before relaxing)
+ .rodata.write_sentinel_registers.str1.4
+                0x00010bc4        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                                 0x1e (size before relaxing)
+ .rodata.exception_unexpected.str1.4
+                0x00010bc4        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                                 0x2e (size before relaxing)
+ .rodata.exception_dispatch.str1.4
+                0x00010bc4        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                                 0x57 (size before relaxing)
+ .rodata.str1.4
+                0x00010bc4        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                                 0x38 (size before relaxing)
+ .rodata.CSWTCH.8
+                0x00010bc4       0x54 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .rodata.CSWTCH.3
+                0x00010c18       0x40 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .rodata.str1.4
+                0x00010c58        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+                                  0xd (size before relaxing)
+ .rodata.integratorcp_board
+                0x00010c58       0x1c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .rodata.console_write_hex32.str1.4
+                0x00010c74        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                                  0x3 (size before relaxing)
+ .rodata.digits.0
+                0x00010c74       0x11 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .rodata.write_stack.str1.4
+                0x00010c85        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+                                 0x14 (size before relaxing)
+ .rodata.kernel_main.str1.4
+                0x00010c85        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+                                 0xc8 (size before relaxing)
+
+.rel.dyn        0x00010c88        0x0
+ .rel.iplt      0x00010c88        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+
+.data
+ *(.data .data.*)
+
+.igot.plt       0x00010c88        0x0
+ .igot.plt      0x00010c88        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+
+.bss            0x00010c88       0x10
+                0x00010c88                        __bss_start__ = .
+ *(.bss .bss.*)
+ .bss.__k2_sctlr_boot
+                0x00010c88        0x4 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+                0x00010c88                __k2_sctlr_boot
+ .bss.console_ready
+                0x00010c8c        0x4 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .bss.console_uart
+                0x00010c90        0x8 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ *(COMMON)
+                0x00010c98                        . = ALIGN (0x8)
+                0x00010c98                        __bss_end__ = .
+
+.stack          0x00010c98     0x6c00
+                0x00010c98                        __svc_stack_bottom__ = .
+                0x00014c98                        . = (. + __svc_stack_size__)
+ *fill*         0x00010c98     0x4000 
+                0x00014c98                        __svc_stack_top__ = .
+                0x00014c98                        . = ALIGN (0x8)
+                0x00014c98                        __und_stack_bottom__ = .
+                0x00015c98                        . = (. + __und_stack_size__)
+ *fill*         0x00014c98     0x1000 
+                0x00015c98                        __und_stack_top__ = .
+                0x00015c98                        . = ALIGN (0x8)
+                0x00015c98                        __abt_stack_bottom__ = .
+                0x00016c98                        . = (. + __abt_stack_size__)
+ *fill*         0x00015c98     0x1000 
+                0x00016c98                        __abt_stack_top__ = .
+                0x00016c98                        . = ALIGN (0x8)
+                0x00016c98                        __irq_stack_bottom__ = .
+                0x00017498                        . = (. + __irq_stack_size__)
+ *fill*         0x00016c98      0x800 
+                0x00017498                        __irq_stack_top__ = .
+                0x00017498                        . = ALIGN (0x8)
+                0x00017498                        __fiq_stack_bottom__ = .
+                0x00017898                        . = (. + __fiq_stack_size__)
+ *fill*         0x00017498      0x400 
+                0x00017898                        __fiq_stack_top__ = .
+                0x00010c98                        __stack_bottom__ = __svc_stack_bottom__
+                0x00014c98                        __stack_top__ = __svc_stack_top__
+                0x00017898                        __image_end__ = .
+                0x00007898                        __image_size__ = (__image_end__ - __image_start__)
+
+/DISCARD/
+ *(.comment)
+ *(.note .note.*)
+ *(.eh_frame .eh_frame.*)
+ *(.ARM.exidx .ARM.exidx.*)
+                0x00000001                        ASSERT ((__vectors_start__ == 0x0), vector base must be 0x00000000)
+                0x00000001                        ASSERT ((__vectors_end__ == 0x20), vector table must be exactly 32 bytes)
+                0x00000001                        ASSERT ((SIZEOF (.vectors) == 0x20), vector section must be exactly 32 bytes)
+                0x00000001                        ASSERT ((_start == 0x10000), K2 entry point must be 0x00010000)
+                0x00000001                        ASSERT ((reset_handler == _start), reset vector and ELF entry point must share reset_handler)
+                0x00000001                        ASSERT ((__image_start__ == 0x10000), kernel image must start at 0x00010000)
+                0x00000001                        ASSERT ((__image_start__ >= __vectors_end__), kernel image must not overlap the vector table)
+                0x00000001                        ASSERT ((__bss_end__ <= __stack_bottom__), BSS must precede the stack area)
+                0x00000001                        ASSERT (((__stack_top__ - __stack_bottom__) == __svc_stack_size__), SVC stack size mismatch)
+                0x00000001                        ASSERT (((__und_stack_top__ - __und_stack_bottom__) == __und_stack_size__), UND stack size mismatch)
+                0x00000001                        ASSERT (((__abt_stack_top__ - __abt_stack_bottom__) == __abt_stack_size__), ABT stack size mismatch)
+                0x00000001                        ASSERT (((__irq_stack_top__ - __irq_stack_bottom__) == __irq_stack_size__), IRQ stack size mismatch)
+                0x00000001                        ASSERT (((__fiq_stack_top__ - __fiq_stack_bottom__) == __fiq_stack_size__), FIQ stack size mismatch)
+                0x00000001                        ASSERT ((__image_end__ == __fiq_stack_top__), image must end at the top of the FIQ stack)
+                0x00000001                        ASSERT ((__image_size__ <= 0x10000), K2 image (including all stacks) exceeds the 64 KiB budget)
+                0x00000001                        ASSERT ((__image_end__ <= __ram_end__), K2 image does not fit in emulated RAM)
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_k2_tests_c.o
+LOAD C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+OUTPUT(C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf elf32-littlearm)
+LOAD linker stubs
+
+.ARM.attributes
+                0x00000000       0x25
+ .ARM.attributes
+                0x00000000       0x19 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .ARM.attributes
+                0x00000019       0x19 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .ARM.attributes
+                0x00000032       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .ARM.attributes
+                0x0000005c       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .ARM.attributes
+                0x00000086       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .ARM.attributes
+                0x000000b0       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .ARM.attributes
+                0x000000da       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .ARM.attributes
+                0x00000104       0x2a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_line     0x00000000      0xd03
+ .debug_line    0x00000000       0x98 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .debug_line    0x00000098       0x83 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .debug_line    0x0000011b      0x163 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_line    0x0000027e      0x270 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_line    0x000004ee       0xed C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .debug_line    0x000005db      0x235 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_line    0x00000810      0x365 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_line    0x00000b75      0x18e C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_line_str
+                0x00000000       0x25
+ .debug_line_str
+                0x00000000       0x25 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+                                 0x19 (size before relaxing)
+ .debug_line_str
+                0x00000025        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+                                 0x1d (size before relaxing)
+
+.debug_info     0x00000000     0x18cc
+ .debug_info    0x00000000       0x48 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .debug_info    0x00000048       0x91 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .debug_info    0x000000d9      0x195 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_info    0x0000026e      0x666 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_info    0x000008d4      0x148 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .debug_info    0x00000a1c      0x35b C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_info    0x00000d77      0x59b C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_info    0x00001312      0x5ba C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_abbrev   0x00000000      0x833
+ .debug_abbrev  0x00000000       0x26 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .debug_abbrev  0x00000026       0x26 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .debug_abbrev  0x0000004c       0xe1 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_abbrev  0x0000012d      0x1eb C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_abbrev  0x00000318       0x9a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .debug_abbrev  0x000003b2      0x13c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_abbrev  0x000004ee      0x1c0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_abbrev  0x000006ae      0x185 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_aranges  0x00000000      0x190
+ .debug_aranges
+                0x00000000       0x28 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .debug_aranges
+                0x00000028       0x28 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .debug_aranges
+                0x00000050       0x50 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_aranges
+                0x000000a0       0x40 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_aranges
+                0x000000e0       0x20 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .debug_aranges
+                0x00000100       0x28 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_aranges
+                0x00000128       0x40 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_aranges
+                0x00000168       0x28 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_str      0x00000000      0x65f
+ .debug_str     0x00000000      0x65f C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+                                 0x45 (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+                                 0xab (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+                                0x23d (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+                                0x31e (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+                                0x260 (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+                                0x23e (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+                                0x2e8 (size before relaxing)
+ .debug_str     0x0000065f        0x0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+                                0x3e4 (size before relaxing)
+
+.debug_rnglists
+                0x00000000      0x203
+ .debug_rnglists
+                0x00000000       0x1a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_start_S.o
+ .debug_rnglists
+                0x0000001a       0x1a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_S.o
+ .debug_rnglists
+                0x00000034       0x37 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_rnglists
+                0x0000006b       0x2d C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_rnglists
+                0x00000098       0x13 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .debug_rnglists
+                0x000000ab       0x49 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_rnglists
+                0x000000f4       0xf5 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_rnglists
+                0x000001e9       0x1a C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_loclists
+                0x00000000      0x52f
+ .debug_loclists
+                0x00000000       0x43 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_loclists
+                0x00000043      0x105 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_loclists
+                0x00000148      0x141 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_loclists
+                0x00000289      0x237 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_loclists
+                0x000004c0       0x6f C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o
+
+.debug_frame    0x00000000      0x298
+ .debug_frame   0x00000000       0x80 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_cpu_c.o
+ .debug_frame   0x00000080       0xa0 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_arch_armv6_exception_c.o
+ .debug_frame   0x00000120       0x20 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_board_board_integratorcp_c.o
+ .debug_frame   0x00000140       0x40 C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_drivers_pl011_c.o
+ .debug_frame   0x00000180       0xcc C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_console_c.o
+ .debug_frame   0x0000024c       0x4c C:\Users\scs\Documents\minitos-k1\build\normal\obj\src_kernel_main_c.o

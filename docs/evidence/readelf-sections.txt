@@ -1,26 +1,26 @@
-There are 19 section headers, starting at offset 0x4420:
+There are 19 section headers, starting at offset 0x7b28:
 
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .vectors          PROGBITS        00010000 001000 000020 00  AX  0   0 32
-  [ 2] .text             PROGBITS        00010020 001020 0003c8 00  AX  0   0  4
-  [ 3] .rodata           PROGBITS        000103e8 0013e8 000085 00   A  0   0  4
-  [ 4] .bss              NOBITS          00010470 001470 000010 00  WA  0   0  8
-  [ 5] .stack            NOBITS          00010480 001470 004000 00  WA  0   0  8
-  [ 6] .ARM.attributes   ARM_ATTRIBUTES  00000000 00146d 000025 00      0   0  1
-  [ 7] .debug_line       PROGBITS        00000000 001492 000900 00      0   0  1
-  [ 8] .debug_line_str   PROGBITS        00000000 001d92 000019 01  MS  0   0  1
-  [ 9] .debug_info       PROGBITS        00000000 001dab 000dc4 00      0   0  1
-  [10] .debug_abbrev     PROGBITS        00000000 002b6f 000544 00      0   0  1
-  [11] .debug_aranges    PROGBITS        00000000 0030b8 0000f0 00      0   0  8
-  [12] .debug_str        PROGBITS        00000000 0031a8 000396 01  MS  0   0  1
-  [13] .debug_rnglists   PROGBITS        00000000 00353e 000190 00      0   0  1
-  [14] .debug_loclists   PROGBITS        00000000 0036ce 0003af 00      0   0  1
-  [15] .debug_frame      PROGBITS        00000000 003a80 000174 00      0   0  4
-  [16] .symtab           SYMTAB          00000000 003bf4 000530 10     17  62  4
-  [17] .strtab           STRTAB          00000000 004124 000230 00      0   0  1
-  [18] .shstrtab         STRTAB          00000000 004354 0000cb 00      0   0  1
+  [ 1] .vectors          PROGBITS        00000000 001000 000020 00  AX  0   0 32
+  [ 2] .text             PROGBITS        00010000 002000 0009a4 00  AX  0   0  4
+  [ 3] .rodata           PROGBITS        000109a4 0029a4 0002e1 00   A  0   0  4
+  [ 4] .bss              NOBITS          00010c88 002c88 000010 00  WA  0   0  8
+  [ 5] .stack            NOBITS          00010c98 002c88 006c00 00  WA  0   0  8
+  [ 6] .ARM.attributes   ARM_ATTRIBUTES  00000000 002c85 000025 00      0   0  1
+  [ 7] .debug_line       PROGBITS        00000000 002caa 000d03 00      0   0  1
+  [ 8] .debug_line_str   PROGBITS        00000000 0039ad 000025 01  MS  0   0  1
+  [ 9] .debug_info       PROGBITS        00000000 0039d2 0018cc 00      0   0  1
+  [10] .debug_abbrev     PROGBITS        00000000 00529e 000833 00      0   0  1
+  [11] .debug_aranges    PROGBITS        00000000 005ad8 000190 00      0   0  8
+  [12] .debug_str        PROGBITS        00000000 005c68 00065f 01  MS  0   0  1
+  [13] .debug_rnglists   PROGBITS        00000000 0062c7 000203 00      0   0  1
+  [14] .debug_loclists   PROGBITS        00000000 0064ca 00052f 00      0   0  1
+  [15] .debug_frame      PROGBITS        00000000 0069fc 000298 00      0   0  4
+  [16] .symtab           SYMTAB          00000000 006c94 000910 10     17  91  4
+  [17] .strtab           STRTAB          00000000 0075a4 0004b9 00      0   0  1
+  [18] .shstrtab         STRTAB          00000000 007a5d 0000cb 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),

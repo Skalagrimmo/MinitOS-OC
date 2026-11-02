@@ -5,5 +5,9 @@ build/
 *.bin
 *.map
 *.log
+# Captured serial/platform logs under docs/evidence are part of the
+# acceptance record, not disposable build output.
+!docs/evidence/*.log
+!docs/evidence/k1/*.log
 __pycache__/
 *.pyc

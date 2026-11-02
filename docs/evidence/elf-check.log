@@ -1,0 +1,329 @@
+=== normal ===
+ELF file: C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf
+[PASS] ELF magic
+[PASS] ELF class is 32-bit
+[PASS] ELF data is little-endian
+[PASS] ELF version is 1
+[PASS] ELF type is ET_EXEC
+[PASS] ELF machine is EM_ARM
+[PASS] EABI version is 5
+[PASS] soft-float ABI (no hard-float flag)
+[PASS] header sizes are ELF32
+[PASS] entry point is 0x00010000
+[PASS] _start is at 0x00010000
+[PASS] _start is a global function
+[PASS] reset_handler is at _start
+[PASS] reset_handler is a function
+[PASS] kernel_main is a function
+[PASS] .vectors is at address 0
+[PASS] .vectors is executable and allocated
+[PASS] .vectors is exactly 32 bytes
+[PASS] .text starts at the image base
+[PASS] _start and reset_handler live in .text
+[PASS] kernel_main lives in .text
+[PASS] vector 0x00 branches to reset_handler
+[PASS] vector 0x00 has a defined target
+[PASS] vector 0x04 branches to undef_entry
+[PASS] vector 0x04 has a defined target
+[PASS] vector 0x08 branches to svc_entry
+[PASS] vector 0x08 has a defined target
+[PASS] vector 0x0c branches to prefetch_entry
+[PASS] vector 0x0c has a defined target
+[PASS] vector 0x10 branches to data_abort_entry
+[PASS] vector 0x10 has a defined target
+[PASS] vector 0x14 branches to reserved_entry
+[PASS] vector 0x14 has a defined target
+[PASS] vector 0x18 branches to irq_entry
+[PASS] vector 0x18 has a defined target
+[PASS] vector 0x1c branches to fiq_entry
+[PASS] vector 0x1c has a defined target
+[PASS] .text is executable and non-empty
+[PASS] .rodata contains 'MINITOS KERNEL STARTED'
+[PASS] .rodata contains 'K2 EXCEPTION CAPTURED'
+[PASS] .rodata contains 'EXCEPTION: UNDEFINED INSTRUCTION'
+[PASS] .rodata contains 'EXCEPTION: DATA ABORT'
+[PASS] .bss is NOBITS
+[PASS] .stack is NOBITS
+[PASS] .text follows the vector table
+[PASS] .rodata follows .text
+[PASS] .data is absent or follows .rodata
+[PASS] .bss follows .data
+[PASS] .stack follows .bss
+[PASS] reserved low memory contains no other allocated section
+[PASS] __vectors_start__ is 0
+[PASS] __vectors_end__ is 32
+[PASS] __bss_start__ matches .bss
+[PASS] __bss_end__ matches .bss end
+[PASS] BSS size is positive and 8-byte aligned
+[PASS] __image_start__ is 0x00010000
+[PASS] __image_start__ is the start of .text
+[PASS] __image_end__ is the end of .stack
+[PASS] image fits the 64 KiB K2 budget
+[PASS] image fits emulated RAM
+[PASS] SVC stack has the expected size
+[PASS] SVC stack bottom is 8-byte aligned
+[PASS] SVC stack top is 8-byte aligned
+[PASS] __stack_bottom__ aliases the SVC stack
+[PASS] __stack_top__ aliases the SVC stack
+[PASS] __stack_size__ is 16 KiB
+[PASS] UND stack has the expected size
+[PASS] UND stack bottom is 8-byte aligned
+[PASS] UND stack top is 8-byte aligned
+[PASS] ABT stack has the expected size
+[PASS] ABT stack bottom is 8-byte aligned
+[PASS] ABT stack top is 8-byte aligned
+[PASS] IRQ stack has the expected size
+[PASS] IRQ stack bottom is 8-byte aligned
+[PASS] IRQ stack top is 8-byte aligned
+[PASS] FIQ stack has the expected size
+[PASS] FIQ stack bottom is 8-byte aligned
+[PASS] FIQ stack top is 8-byte aligned
+[PASS] stack regions are contiguous and ordered
+[PASS] image ends at the top of the last stack
+[PASS] __k2_sctlr_boot is in .bss
+[PASS] compiled exception frame is 72 bytes
+[PASS] compiled exception frame is 8-byte aligned
+[PASS] at least three PT_LOAD segments
+[PASS] no PT_DYNAMIC / PT_INTERP
+[PASS] vector table has its own PT_LOAD at address 0
+[PASS] vector segment is exactly 32 bytes on disk
+[PASS] vector segment is exactly 32 bytes in memory
+[PASS] vector segment is executable
+[PASS] kernel text has a PT_LOAD at 0x00010000
+[PASS] first PT_LOAD starts at address 0
+[PASS] all segments have p_vaddr == p_paddr
+[PASS] all segments have p_memsz >= p_filesz
+[PASS] all segments fit emulated RAM
+[PASS] no PT_LOAD segments overlap
+[PASS] entry point is inside a loaded segment
+[PASS] some PT_LOAD is writable
+[PASS] normal profile contains the K2 IDLE marker
+[PASS] normal profile does not contain a fault test selector
+[PASS] no undefined symbols
+[PASS] no implicit libc/libgcc helpers
+[PASS] .comment was discarded
+[PASS] flat binary starts at the vector base
+[PASS] flat binary size matches allocated sections
+[PASS] flat binary content matches ELF load image
+
+ELF CHECK [normal]: PASS (105 checks)
+=== undef ===
+ELF file: C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf
+[PASS] ELF magic
+[PASS] ELF class is 32-bit
+[PASS] ELF data is little-endian
+[PASS] ELF version is 1
+[PASS] ELF type is ET_EXEC
+[PASS] ELF machine is EM_ARM
+[PASS] EABI version is 5
+[PASS] soft-float ABI (no hard-float flag)
+[PASS] header sizes are ELF32
+[PASS] entry point is 0x00010000
+[PASS] _start is at 0x00010000
+[PASS] _start is a global function
+[PASS] reset_handler is at _start
+[PASS] reset_handler is a function
+[PASS] kernel_main is a function
+[PASS] .vectors is at address 0
+[PASS] .vectors is executable and allocated
+[PASS] .vectors is exactly 32 bytes
+[PASS] .text starts at the image base
+[PASS] _start and reset_handler live in .text
+[PASS] kernel_main lives in .text
+[PASS] vector 0x00 branches to reset_handler
+[PASS] vector 0x00 has a defined target
+[PASS] vector 0x04 branches to undef_entry
+[PASS] vector 0x04 has a defined target
+[PASS] vector 0x08 branches to svc_entry
+[PASS] vector 0x08 has a defined target
+[PASS] vector 0x0c branches to prefetch_entry
+[PASS] vector 0x0c has a defined target
+[PASS] vector 0x10 branches to data_abort_entry
+[PASS] vector 0x10 has a defined target
+[PASS] vector 0x14 branches to reserved_entry
+[PASS] vector 0x14 has a defined target
+[PASS] vector 0x18 branches to irq_entry
+[PASS] vector 0x18 has a defined target
+[PASS] vector 0x1c branches to fiq_entry
+[PASS] vector 0x1c has a defined target
+[PASS] .text is executable and non-empty
+[PASS] .rodata contains 'MINITOS KERNEL STARTED'
+[PASS] .rodata contains 'K2 EXCEPTION CAPTURED'
+[PASS] .rodata contains 'EXCEPTION: UNDEFINED INSTRUCTION'
+[PASS] .rodata contains 'EXCEPTION: DATA ABORT'
+[PASS] .bss is NOBITS
+[PASS] .stack is NOBITS
+[PASS] .text follows the vector table
+[PASS] .rodata follows .text
+[PASS] .data is absent or follows .rodata
+[PASS] .bss follows .data
+[PASS] .stack follows .bss
+[PASS] reserved low memory contains no other allocated section
+[PASS] __vectors_start__ is 0
+[PASS] __vectors_end__ is 32
+[PASS] __bss_start__ matches .bss
+[PASS] __bss_end__ matches .bss end
+[PASS] BSS size is positive and 8-byte aligned
+[PASS] __image_start__ is 0x00010000
+[PASS] __image_start__ is the start of .text
+[PASS] __image_end__ is the end of .stack
+[PASS] image fits the 64 KiB K2 budget
+[PASS] image fits emulated RAM
+[PASS] SVC stack has the expected size
+[PASS] SVC stack bottom is 8-byte aligned
+[PASS] SVC stack top is 8-byte aligned
+[PASS] __stack_bottom__ aliases the SVC stack
+[PASS] __stack_top__ aliases the SVC stack
+[PASS] __stack_size__ is 16 KiB
+[PASS] UND stack has the expected size
+[PASS] UND stack bottom is 8-byte aligned
+[PASS] UND stack top is 8-byte aligned
+[PASS] ABT stack has the expected size
+[PASS] ABT stack bottom is 8-byte aligned
+[PASS] ABT stack top is 8-byte aligned
+[PASS] IRQ stack has the expected size
+[PASS] IRQ stack bottom is 8-byte aligned
+[PASS] IRQ stack top is 8-byte aligned
+[PASS] FIQ stack has the expected size
+[PASS] FIQ stack bottom is 8-byte aligned
+[PASS] FIQ stack top is 8-byte aligned
+[PASS] stack regions are contiguous and ordered
+[PASS] image ends at the top of the last stack
+[PASS] __k2_sctlr_boot is in .bss
+[PASS] compiled exception frame is 72 bytes
+[PASS] compiled exception frame is 8-byte aligned
+[PASS] at least three PT_LOAD segments
+[PASS] no PT_DYNAMIC / PT_INTERP
+[PASS] vector table has its own PT_LOAD at address 0
+[PASS] vector segment is exactly 32 bytes on disk
+[PASS] vector segment is exactly 32 bytes in memory
+[PASS] vector segment is executable
+[PASS] kernel text has a PT_LOAD at 0x00010000
+[PASS] first PT_LOAD starts at address 0
+[PASS] all segments have p_vaddr == p_paddr
+[PASS] all segments have p_memsz >= p_filesz
+[PASS] all segments fit emulated RAM
+[PASS] no PT_LOAD segments overlap
+[PASS] entry point is inside a loaded segment
+[PASS] some PT_LOAD is writable
+[PASS] undef profile contains the test selector
+[PASS] k2_trigger_undef contains a real UDF instruction
+[PASS] no undefined symbols
+[PASS] no implicit libc/libgcc helpers
+[PASS] .comment was discarded
+[PASS] flat binary starts at the vector base
+[PASS] flat binary size matches allocated sections
+[PASS] flat binary content matches ELF load image
+
+ELF CHECK [undef]: PASS (105 checks)
+=== data-abort ===
+ELF file: C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf
+[PASS] ELF magic
+[PASS] ELF class is 32-bit
+[PASS] ELF data is little-endian
+[PASS] ELF version is 1
+[PASS] ELF type is ET_EXEC
+[PASS] ELF machine is EM_ARM
+[PASS] EABI version is 5
+[PASS] soft-float ABI (no hard-float flag)
+[PASS] header sizes are ELF32
+[PASS] entry point is 0x00010000
+[PASS] _start is at 0x00010000
+[PASS] _start is a global function
+[PASS] reset_handler is at _start
+[PASS] reset_handler is a function
+[PASS] kernel_main is a function
+[PASS] .vectors is at address 0
+[PASS] .vectors is executable and allocated
+[PASS] .vectors is exactly 32 bytes
+[PASS] .text starts at the image base
+[PASS] _start and reset_handler live in .text
+[PASS] kernel_main lives in .text
+[PASS] vector 0x00 branches to reset_handler
+[PASS] vector 0x00 has a defined target
+[PASS] vector 0x04 branches to undef_entry
+[PASS] vector 0x04 has a defined target
+[PASS] vector 0x08 branches to svc_entry
+[PASS] vector 0x08 has a defined target
+[PASS] vector 0x0c branches to prefetch_entry
+[PASS] vector 0x0c has a defined target
+[PASS] vector 0x10 branches to data_abort_entry
+[PASS] vector 0x10 has a defined target
+[PASS] vector 0x14 branches to reserved_entry
+[PASS] vector 0x14 has a defined target
+[PASS] vector 0x18 branches to irq_entry
+[PASS] vector 0x18 has a defined target
+[PASS] vector 0x1c branches to fiq_entry
+[PASS] vector 0x1c has a defined target
+[PASS] .text is executable and non-empty
+[PASS] .rodata contains 'MINITOS KERNEL STARTED'
+[PASS] .rodata contains 'K2 EXCEPTION CAPTURED'
+[PASS] .rodata contains 'EXCEPTION: UNDEFINED INSTRUCTION'
+[PASS] .rodata contains 'EXCEPTION: DATA ABORT'
+[PASS] .bss is NOBITS
+[PASS] .stack is NOBITS
+[PASS] .text follows the vector table
+[PASS] .rodata follows .text
+[PASS] .data is absent or follows .rodata
+[PASS] .bss follows .data
+[PASS] .stack follows .bss
+[PASS] reserved low memory contains no other allocated section
+[PASS] __vectors_start__ is 0
+[PASS] __vectors_end__ is 32
+[PASS] __bss_start__ matches .bss
+[PASS] __bss_end__ matches .bss end
+[PASS] BSS size is positive and 8-byte aligned
+[PASS] __image_start__ is 0x00010000
+[PASS] __image_start__ is the start of .text
+[PASS] __image_end__ is the end of .stack
+[PASS] image fits the 64 KiB K2 budget
+[PASS] image fits emulated RAM
+[PASS] SVC stack has the expected size
+[PASS] SVC stack bottom is 8-byte aligned
+[PASS] SVC stack top is 8-byte aligned
+[PASS] __stack_bottom__ aliases the SVC stack
+[PASS] __stack_top__ aliases the SVC stack
+[PASS] __stack_size__ is 16 KiB
+[PASS] UND stack has the expected size
+[PASS] UND stack bottom is 8-byte aligned
+[PASS] UND stack top is 8-byte aligned
+[PASS] ABT stack has the expected size
+[PASS] ABT stack bottom is 8-byte aligned
+[PASS] ABT stack top is 8-byte aligned
+[PASS] IRQ stack has the expected size
+[PASS] IRQ stack bottom is 8-byte aligned
+[PASS] IRQ stack top is 8-byte aligned
+[PASS] FIQ stack has the expected size
+[PASS] FIQ stack bottom is 8-byte aligned
+[PASS] FIQ stack top is 8-byte aligned
+[PASS] stack regions are contiguous and ordered
+[PASS] image ends at the top of the last stack
+[PASS] __k2_sctlr_boot is in .bss
+[PASS] compiled exception frame is 72 bytes
+[PASS] compiled exception frame is 8-byte aligned
+[PASS] at least three PT_LOAD segments
+[PASS] no PT_DYNAMIC / PT_INTERP
+[PASS] vector table has its own PT_LOAD at address 0
+[PASS] vector segment is exactly 32 bytes on disk
+[PASS] vector segment is exactly 32 bytes in memory
+[PASS] vector segment is executable
+[PASS] kernel text has a PT_LOAD at 0x00010000
+[PASS] first PT_LOAD starts at address 0
+[PASS] all segments have p_vaddr == p_paddr
+[PASS] all segments have p_memsz >= p_filesz
+[PASS] all segments fit emulated RAM
+[PASS] no PT_LOAD segments overlap
+[PASS] entry point is inside a loaded segment
+[PASS] some PT_LOAD is writable
+[PASS] data-abort profile contains the test selector
+[PASS] k2_trigger_data_abort does add #1 then LDR [r0]
+[PASS] alignment probe is 16-byte aligned
+[PASS] alignment probe is four words
+[PASS] no undefined symbols
+[PASS] no implicit libc/libgcc helpers
+[PASS] .comment was discarded
+[PASS] flat binary starts at the vector base
+[PASS] flat binary size matches allocated sections
+[PASS] flat binary content matches ELF load image
+
+ELF CHECK [data-abort]: PASS (107 checks)

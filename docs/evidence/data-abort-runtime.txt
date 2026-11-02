@@ -1,0 +1,88 @@
+MinitOS K2 runtime evidence: data-abort
+qemu: C:\Program Files\qemu\qemu-system-arm.exe
+QEMU emulator version 11.1.0 (v11.1.0-12130-ge470268ff4)
+command: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf -display none -monitor none -serial file:build\run\data-abort\serial.log -no-reboot -d guest_errors -D build\run\data-abort\guest-errors.log
+
+checks:
+[PASS] guest produced serial output
+[PASS] first serial line is the MinitOS banner
+[PASS] board diagnostic is present
+[PASS] UART diagnostic is present
+[PASS] CPU MIDR is reported
+[PASS] CPU implementer is ARM (0x41)
+[PASS] CPU part is ARM1136 (0xB36)
+[PASS] low vector base is reported
+[PASS] boot SCTLR is reported
+[PASS] SCTLR.V is 0 (low vectors)
+[PASS] startup CPSR is reported
+[PASS] startup mode is SVC
+[PASS] startup IRQ is masked
+[PASS] startup FIQ is masked
+[PASS] exception frame size is 72 bytes
+[PASS] exception frame alignment is 8
+[PASS] SVC stack is reported
+[PASS] UND stack is reported
+[PASS] ABT stack is reported
+[PASS] IRQ stack is reported
+[PASS] FIQ stack is reported
+[PASS] terminal marker 'K2 EXCEPTION CAPTURED' is present
+[PASS] terminal marker is the last serial line
+[PASS] guest did not reboot after the terminal marker
+[PASS] data-abort test selector is present
+[PASS] pre-test SCTLR is reported
+[PASS] post-test SCTLR is reported
+[PASS] SCTLR.A and SCTLR.U read back as 1
+[PASS] alignment probe address is reported
+[PASS] alignment probe is 16-byte aligned
+[PASS] data abort exception was reported
+[PASS] Data Abort vector offset is 0x00000010
+[PASS] handler mode is ABT
+[PASS] handler CPSR is ABT mode
+[PASS] handler IRQ is masked
+[PASS] handler FIQ is masked
+[PASS] interrupted context was SVC
+[PASS] DFSR is reported
+[PASS] DFSR status is Alignment Fault (0b00001)
+[PASS] DFAR equals the unaligned probe address probe+1
+[PASS] LR_abt and fault_pc differ by 8
+[PASS] fault_pc lies in the loaded kernel image
+[PASS] saved r0 equals the unaligned probe address
+[PASS] saved r1 sentinel matches
+[PASS] saved r2 sentinel matches
+[PASS] saved r12 sentinel matches
+[PASS] QEMU guest-error log is empty
+
+serial output:
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+K2 vectors: low @ 0x00000000
+K2 sctlr: 0x00050078
+K2 cpsr: 0x600001d3
+K2 frame bytes: 0x00000048
+K2 frame align: 0x00000008
+K2 stack svc: 0x00010e60 - 0x00014e60
+K2 stack und: 0x00014e60 - 0x00015e60
+K2 stack abt: 0x00015e60 - 0x00016e60
+K2 stack irq: 0x00016e60 - 0x00017660
+K2 stack fiq: 0x00017660 - 0x00017a60
+K2 test: data-abort
+K2 sctlr before: 0x00050078
+K2 sctlr after: 0x0045007a
+K2 alignment probe: 0x00010e40
+EXCEPTION: DATA ABORT
+vector: 0x00000010
+mode: ABT
+handler_cpsr: 0x600001d7
+lr: 0x0001026c
+spsr: 0x600001d3
+spsr_mode: SVC
+dfsr: 0x00000001
+dfar: 0x00010e41
+fault_pc: 0x00010264
+r0: 0x00010e41
+r1: 0x4b2d0002
+r2: 0x4b2d0003
+r12: 0x4b2d000c
+K2 EXCEPTION CAPTURED

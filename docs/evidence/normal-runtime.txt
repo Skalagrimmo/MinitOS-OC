@@ -1,0 +1,52 @@
+MinitOS K2 runtime evidence: normal
+qemu: C:\Program Files\qemu\qemu-system-arm.exe
+QEMU emulator version 11.1.0 (v11.1.0-12130-ge470268ff4)
+command: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf -display none -monitor none -serial file:build\run\normal\serial.log -no-reboot -d guest_errors -D build\run\normal\guest-errors.log
+
+checks:
+[PASS] guest produced serial output
+[PASS] first serial line is the MinitOS banner
+[PASS] board diagnostic is present
+[PASS] UART diagnostic is present
+[PASS] CPU MIDR is reported
+[PASS] CPU implementer is ARM (0x41)
+[PASS] CPU part is ARM1136 (0xB36)
+[PASS] low vector base is reported
+[PASS] boot SCTLR is reported
+[PASS] SCTLR.V is 0 (low vectors)
+[PASS] startup CPSR is reported
+[PASS] startup mode is SVC
+[PASS] startup IRQ is masked
+[PASS] startup FIQ is masked
+[PASS] exception frame size is 72 bytes
+[PASS] exception frame alignment is 8
+[PASS] SVC stack is reported
+[PASS] UND stack is reported
+[PASS] ABT stack is reported
+[PASS] IRQ stack is reported
+[PASS] FIQ stack is reported
+[PASS] terminal marker 'K2 IDLE' is present
+[PASS] terminal marker is the last serial line
+[PASS] guest did not reboot after the terminal marker
+[PASS] normal profile selector is present
+[PASS] normal profile has no exception output
+[PASS] normal run has SCTLR.A=0 and SCTLR.U=0
+[PASS] QEMU guest-error log is empty
+
+serial output:
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+K2 vectors: low @ 0x00000000
+K2 sctlr: 0x00050078
+K2 cpsr: 0x600001d3
+K2 frame bytes: 0x00000048
+K2 frame align: 0x00000008
+K2 stack svc: 0x00010c98 - 0x00014c98
+K2 stack und: 0x00014c98 - 0x00015c98
+K2 stack abt: 0x00015c98 - 0x00016c98
+K2 stack irq: 0x00016c98 - 0x00017498
+K2 stack fiq: 0x00017498 - 0x00017898
+K2 test: normal
+K2 IDLE

@@ -32,7 +32,7 @@ From the live QEMU 11.1.0 instance (`-M integratorcp -cpu arm1136 -m 128M`):
 | `0x13000000` | `0x13000FFF` | `icp_pit` | programmable interrupt timer |
 | `0x14000000` | `0x147FFFFF` | `icp-pic` | interrupt controller |
 | `0x15000000` | `0x15000FFF` | `pl031` | RTC |
-| `0x16000000` | `0x16000FFF` | `pl011` | **UART0, used by K1** |
+| `0x16000000` | `0x16000FFF` | `pl011` | **UART0, used by K2** |
 | `0x17000000` | `0x17000FFF` | `pl011` | UART1 |
 | `0x18000000` | `0x18000FFF` | `pl050` | keyboard |
 | `0x19000000` | `0x19000FFF` | `pl050` | mouse |
@@ -45,8 +45,9 @@ From the live QEMU 11.1.0 instance (`-M integratorcp -cpu arm1136 -m 128M`):
 | `0xCA000000` | `0xCA7FFFFF` | `icp-pic` | secondary PIC |
 | `0xCB000000` | `0xCB7FFFFF` | `icp_ctrl_regs` | CP control registers |
 
-K1 uses only RAM at `0x00000000` and PL011 UART0 at `0x16000000`. Everything
-else in the table is recorded so later drivers do not have to guess.
+K2 uses RAM at `0x00000000` (the 32-byte low vector table and the kernel image
+at `0x00010000`) and PL011 UART0 at `0x16000000`. Everything else in the table
+is recorded so later drivers do not have to guess.
 
 ## 3. Boot and load contract
 
@@ -66,18 +67,25 @@ and calls `arm_load_kernel()`. For a 32-bit ARM **ELF** image, QEMU:
    Linux `r0/r1/r2` boot protocol.
 
 This was confirmed by inspecting QEMU's `hw/arm/integratorcp.c` and
-`hw/arm/boot.c`, and by observing the actual K1 execution:
+`hw/arm/boot.c`, and by observing the actual K2 execution:
 `e_entry = 0x00010000`, first instruction `b reset_handler`, UART output
 present.
 
-Consequences for K1:
+Consequences for K2:
 
 - `r0`–`r2` are treated as unspecified and ignored.
 - No ATAG/DTB pointer is expected.
 - The image must be an ELF with correct `p_paddr`; a raw binary would take
   QEMU's Linux-image path and a different load address.
-- K1 still forces CPSR to SVC with IRQ/FIQ masked instead of relying on the
+- K2 still forces CPSR to SVC with IRQ/FIQ masked instead of relying on the
   loader's CPU state.
+- QEMU loads the 32-byte vector segment at physical address 0 and then starts
+  the CPU at `e_entry = 0x00010000`. The reset slot at 0 is therefore not the
+  first instruction QEMU executes, but it is the architectural reset vector and
+  the active table for every later exception.
+- `reset_handler` clears `SCTLR.V` and verifies the read-back, so the low table
+  at 0 is the table the CPU actually uses for Undefined Instruction and Data
+  Abort.
 
 ## 4. CPU configuration
 
@@ -96,7 +104,7 @@ QEMU:
 -M integratorcp -cpu arm1136
 ```
 
-QEMU's `-M integratorcp -cpu help` lists `arm1136` (and `arm1136-r2`). K1
+QEMU's `-M integratorcp -cpu help` lists `arm1136` (and `arm1136-r2`). K2
 passes `-cpu arm1136` explicitly because the machine's default is ARM926.
 
 Runtime proof comes from CP15 MIDR (`mrc p15, 0, r0, c0, c0, 0`):
@@ -119,13 +127,13 @@ The QEMU ARM1136 model is not a claim that a specific MSM7227 revision has the
 same MIDR or errata. It proves the emulated core is an ARM1136 and that the
 built code executes on it.
 
-## 5. PL011 UART programming model used by K1
+## 5. PL011 UART programming model used by K2
 
 UART0 base: `0x16000000`.
 
 Registers used (32-bit, little-endian):
 
-| Offset | Register | K1 use |
+| Offset | Register | K2 use |
 |---|---|---|
 | `0x000` | `UARTDR` | write one byte |
 | `0x018` | `UARTFR` | poll `TXFF` bit 5 |
@@ -147,7 +155,7 @@ Initialisation sequence:
 6. write `CR = 0x301` (UART enabled, TX and RX enabled).
 
 QEMU-specific finding: if `UARTEN` is not set, writes to `UARTDR` are dropped
-and QEMU logs a guest error (once). K1 therefore explicitly enables the UART;
+and QEMU logs a guest error (once). K2 therefore explicitly enables the UART;
 the acceptance harness runs with `-d guest_errors` and requires an empty log.
 
 Transmit is polled:
@@ -157,7 +165,7 @@ while ((mmio_read32(base + UARTFR) & UARTFR_TXFF) != 0) { }
 mmio_write32(base + UARTDR, byte);
 ```
 
-No interrupts, no FIFO threshold handling and no RX path are used in K1.
+No interrupts, no FIFO threshold handling and no RX path are used in K2.
 
 ### Baud rate
 
@@ -167,7 +175,7 @@ The PL011 divisor formula is:
 UARTCLK / (16 * baud) = IBRD + FBRD / 64
 ```
 
-K1 uses the Integrator/CP reference clock assumption `UARTCLK = 7,372,800 Hz`
+K2 uses the Integrator/CP reference clock assumption `UARTCLK = 7,372,800 Hz`
 and `baud = 115,200`:
 
 ```text
@@ -189,12 +197,17 @@ assumption for future hardware and is listed as unverified in
 - The Gio's physical memory map or peripheral addresses.
 
 Passing on `integratorcp` proves the ARMv6 code path, the ELF contract, the
-PL011 driver logic and the build/verification pipeline. It does not prove the
-Gio port.
+low-vector exception path, the PL011 driver logic and the build/verification
+pipeline. It does not prove the Gio port.
 
 ## 7. Evidence
 
 - `docs/evidence/qemu-mtree.txt` — live QMP memory map.
-- `docs/evidence/qemu-platform.txt` — machine/CPU/map checks.
-- `docs/evidence/qemu-serial.txt` — raw UART capture.
-- `docs/evidence/runtime-evidence.txt` — runtime checks and exact command.
+- `docs/evidence/qemu-platform.log` — machine/CPU/map checks.
+- `docs/evidence/normal-uart.log` — raw UART capture, normal profile.
+- `docs/evidence/undef-uart.log` — raw UART capture, Undefined Instruction.
+- `docs/evidence/data-abort-uart.log` — raw UART capture, Data Abort.
+- `docs/evidence/normal-runtime.txt`, `undef-runtime.txt`,
+  `data-abort-runtime.txt` — runtime checks and exact commands.
+- `docs/evidence/disassembly-vectors.txt` — low table at address 0.
+- `docs/evidence/k1/` — archived K1 baseline evidence.

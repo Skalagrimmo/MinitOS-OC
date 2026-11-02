@@ -33,7 +33,7 @@ void pl011_init(struct pl011 *uart, uintptr_t base, uint16_t ibrd, uint8_t fbrd)
     /* Disable the UART while its configuration is changed. */
     mmio_write32(base + PL011_CR, 0);
 
-    /* Clear any pending interrupt state; K1 does not use UART interrupts. */
+    /* Clear any pending interrupt state; K2 does not use UART interrupts. */
     mmio_write32(base + PL011_ICR, 0x7FFu);
 
     mmio_write32(base + PL011_IBRD, (uint32_t)ibrd);
@@ -54,7 +54,7 @@ void pl011_write_byte(struct pl011 *uart, uint8_t byte)
     /*
      * Polled transmit. On QEMU this loop is effectively a single test.
      * On real hardware it provides back-pressure instead of dropping bytes.
-     * K1 deliberately has no timeout: a missing UART must be a visible hang,
+     * K2 deliberately has no timeout: a missing UART must be a visible hang,
      * not silent data loss, while the platform is being brought up.
      */
     while ((mmio_read32(uart->base + PL011_FR) & PL011_FR_TXFF) != 0) {

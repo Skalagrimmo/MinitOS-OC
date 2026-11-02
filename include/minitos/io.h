@@ -6,10 +6,10 @@
 /*
  * 32-bit memory-mapped I/O accessors.
  *
- * K1 runs with the MMU off, so these addresses are physical. The volatile
+ * K2 runs with the MMU off, so these addresses are physical. The volatile
  * qualifier prevents the compiler from merging or deleting device accesses.
  * No extra barrier is required for the single-core, non-DMA, interrupt-free
- * K1 execution model; this assumption is recorded in the documentation.
+ * K2 execution model; this assumption is recorded in the documentation.
  */
 
 static inline uint32_t mmio_read32(uintptr_t address)

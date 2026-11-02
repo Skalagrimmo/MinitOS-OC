@@ -1,0 +1,3 @@
+Memory region         Used Size  Region Size  %age Used
+         VECTORS:          32 B         32 B    100.00%
+             RAM:       30872 B        64 KB     47.11%

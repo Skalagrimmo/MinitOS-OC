@@ -1,0 +1,64 @@
+===== _start =====
+C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010000 <_start>:
+   10000:	e10f0000 	mrs	r0, CPSR
+   10004:	e200101f 	and	r1, r0, #31
+   10008:	e3510010 	cmp	r1, #16
+   1000c:	0a000028 	beq	100b4 <_start+0xb4>
+   10010:	e3c0003f 	bic	r0, r0, #63	@ 0x3f
+   10014:	e38000d3 	orr	r0, r0, #211	@ 0xd3
+   10018:	e3c00c02 	bic	r0, r0, #512	@ 0x200
+   1001c:	e121f000 	msr	CPSR_c, r0
+   10020:	ee110f10 	mrc	15, 0, r0, cr1, cr0, {0}
+   10024:	e3c00a02 	bic	r0, r0, #8192	@ 0x2000
+   10028:	e3c00501 	bic	r0, r0, #4194304	@ 0x400000
+   1002c:	e3c00002 	bic	r0, r0, #2
+   10030:	ee010f10 	mcr	15, 0, r0, cr1, cr0, {0}
+   10034:	ee110f10 	mrc	15, 0, r0, cr1, cr0, {0}
+   10038:	e3100a02 	tst	r0, #8192	@ 0x2000
+   1003c:	1a00001c 	bne	100b4 <_start+0xb4>
+   10040:	e3100501 	tst	r0, #4194304	@ 0x400000
+   10044:	1a00001a 	bne	100b4 <_start+0xb4>
+   10048:	e3100002 	tst	r0, #2
+   1004c:	1a000018 	bne	100b4 <_start+0xb4>
+   10050:	e3a00000 	mov	r0, #0
+   10054:	ee070f95 	mcr	15, 0, r0, cr7, cr5, {4}
+   10058:	ee070fba 	mcr	15, 0, r0, cr7, cr10, {5}
+   1005c:	e59fd054 	ldr	sp, [pc, #84]	@ 100b8 <_start+0xb8>
+   10060:	e321f0db 	msr	CPSR_c, #219	@ 0xdb
+   10064:	e59fd050 	ldr	sp, [pc, #80]	@ 100bc <_start+0xbc>
+   10068:	e321f0d7 	msr	CPSR_c, #215	@ 0xd7
+   1006c:	e59fd04c 	ldr	sp, [pc, #76]	@ 100c0 <_start+0xc0>
+   10070:	e321f0d2 	msr	CPSR_c, #210	@ 0xd2
+   10074:	e59fd048 	ldr	sp, [pc, #72]	@ 100c4 <_start+0xc4>
+   10078:	e321f0d1 	msr	CPSR_c, #209	@ 0xd1
+   1007c:	e59fd044 	ldr	sp, [pc, #68]	@ 100c8 <_start+0xc8>
+   10080:	e321f0d3 	msr	CPSR_c, #211	@ 0xd3
+   10084:	e59fd02c 	ldr	sp, [pc, #44]	@ 100b8 <_start+0xb8>
+   10088:	e59f003c 	ldr	r0, [pc, #60]	@ 100cc <_start+0xcc>
+   1008c:	e59f103c 	ldr	r1, [pc, #60]	@ 100d0 <_start+0xd0>
+   10090:	e3a02000 	mov	r2, #0
+   10094:	e1500001 	cmp	r0, r1
+   10098:	34802004 	strcc	r2, [r0], #4
+   1009c:	3afffffc 	bcc	10094 <_start+0x94>
+   100a0:	ee110f10 	mrc	15, 0, r0, cr1, cr0, {0}
+   100a4:	e59f1028 	ldr	r1, [pc, #40]	@ 100d4 <_start+0xd4>
+   100a8:	e5810000 	str	r0, [r1]
+   100ac:	eb0001d2 	bl	107fc <kernel_main>
+   100b0:	eafffffe 	b	100b0 <_start+0xb0>
+   100b4:	eafffffe 	b	100b4 <_start+0xb4>
+   100b8:	00014c98 	.word	0x00014c98
+   100bc:	00015c98 	.word	0x00015c98
+   100c0:	00016c98 	.word	0x00016c98
+   100c4:	00017498 	.word	0x00017498
+   100c8:	00017898 	.word	0x00017898
+   100cc:	00010c88 	.word	0x00010c88
+   100d0:	00010c98 	.word	0x00010c98
+   100d4:	00010c88 	.word	0x00010c88
+

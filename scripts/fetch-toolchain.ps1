@@ -1,4 +1,4 @@
-# Pinned ARM bare-metal toolchain for MinitOS K1.
+# Pinned ARM bare-metal toolchain for MinitOS (K1/K2).
 #
 # The download is large (~320 MiB). The script is idempotent: if the pinned
 # toolchain is already present it exits without downloading again.

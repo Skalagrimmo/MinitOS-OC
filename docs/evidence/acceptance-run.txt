@@ -1,23 +1,51 @@
-MinitOS K1 acceptance run
-started: 2026-11-02T10:43:47+02:00
+MinitOS K2 acceptance run
+started: 2026-11-02T11:28:16+02:00
 root: C:\Users\scs\Documents\minitos-k1
 
-=== [1/5] build ===
+=== [1/5] build all profiles ===
 $ C:\Python315\python.exe tools/build.py build
+=== building profile: normal ===
+profile   : normal
 toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
-ELF       : C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf (18200 bytes)
-  sha256  : 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1
-BIN       : C:\Users\scs\Documents\minitos-k1\build\minitos-k1.bin (1133 bytes)
-  sha256  : 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
+ELF       : C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf (32288 bytes)
+  sha256  : 176d1acc5b21432d9cc8f227f1572576c63b9e1038a4f0575a7ee35d863ea63c
+BIN       : C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.bin (68741 bytes)
+  sha256  : 4ab2ca63f5c5a8e923d293209da93ae39a1d53b7b4df5add27ba248676bcd2db
 size      :
   text	   data	    bss	    dec	    hex	filename
-     1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf
+     3237	      0	  27664	  30901	   78b5	C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf
 stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
-artifacts : C:\Users\scs\Documents\minitos-k1\build
+artifacts : C:\Users\scs\Documents\minitos-k1\build\normal
+=== building profile: undef ===
+profile   : undef
+toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
+ELF       : C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf (34920 bytes)
+  sha256  : 23e8aafa191e731f17bf227d7af1fcd9ad77940e9eb2602ca12d75e898dc2273
+BIN       : C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.bin (68928 bytes)
+  sha256  : ad23fd42f4cbd5bffa1fdf7eadfe3362f302913251eebec35232c62d89122e2b
+size      :
+  text	   data	    bss	    dec	    hex	filename
+     3405	     16	  27664	  31085	   796d	C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf
+stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
+artifacts : C:\Users\scs\Documents\minitos-k1\build\undef
+=== building profile: data-abort ===
+profile   : data-abort
+toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
+ELF       : C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf (35332 bytes)
+  sha256  : 306bf5bc6509cbdcc856bbe353e115cc93d1330f0e67135d381e6c9e35b9330a
+BIN       : C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.bin (69200 bytes)
+  sha256  : 792e6e91e7287e220b83200849ed1c09d09ce6350a27c4aae5a13614e1a47ba7
+size      :
+  text	   data	    bss	    dec	    hex	filename
+     3673	     16	  27664	  31353	   7a79	C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf
+stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
+artifacts : C:\Users\scs\Documents\minitos-k1\build\data-abort
+all artifacts under C:\Users\scs\Documents\minitos-k1\build
 
 === [2/5] ELF structure ===
 $ C:\Python315\python.exe tools/build.py verify --no-build
-ELF file: C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf
+=== ELF check: normal ===
+ELF file: C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf
 [PASS] ELF magic
 [PASS] ELF class is 32-bit
 [PASS] ELF data is little-endian
@@ -28,61 +56,324 @@ ELF file: C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf
 [PASS] soft-float ABI (no hard-float flag)
 [PASS] header sizes are ELF32
 [PASS] entry point is 0x00010000
-[PASS] _start is at image base
+[PASS] _start is at 0x00010000
 [PASS] _start is a global function
-[PASS] _start covers the 8-word vector table
+[PASS] reset_handler is at _start
 [PASS] reset_handler is a function
 [PASS] kernel_main is a function
-[PASS] .vectors is at image base
+[PASS] .vectors is at address 0
 [PASS] .vectors is executable and allocated
 [PASS] .vectors is exactly 32 bytes
-[PASS] reset_handler lives in .text
+[PASS] .text starts at the image base
+[PASS] _start and reset_handler live in .text
 [PASS] kernel_main lives in .text
-[PASS] reset vector branches to reset_handler
-[PASS] vector 1 is a self-loop trap
-[PASS] vector 2 is a self-loop trap
-[PASS] vector 3 is a self-loop trap
-[PASS] vector 4 is a self-loop trap
-[PASS] vector 5 is a self-loop trap
-[PASS] vector 6 is a self-loop trap
-[PASS] vector 7 is a self-loop trap
+[PASS] vector 0x00 branches to reset_handler
+[PASS] vector 0x00 has a defined target
+[PASS] vector 0x04 branches to undef_entry
+[PASS] vector 0x04 has a defined target
+[PASS] vector 0x08 branches to svc_entry
+[PASS] vector 0x08 has a defined target
+[PASS] vector 0x0c branches to prefetch_entry
+[PASS] vector 0x0c has a defined target
+[PASS] vector 0x10 branches to data_abort_entry
+[PASS] vector 0x10 has a defined target
+[PASS] vector 0x14 branches to reserved_entry
+[PASS] vector 0x14 has a defined target
+[PASS] vector 0x18 branches to irq_entry
+[PASS] vector 0x18 has a defined target
+[PASS] vector 0x1c branches to fiq_entry
+[PASS] vector 0x1c has a defined target
 [PASS] .text is executable and non-empty
-[PASS] .rodata contains the K1 banner
+[PASS] .rodata contains 'MINITOS KERNEL STARTED'
+[PASS] .rodata contains 'K2 EXCEPTION CAPTURED'
+[PASS] .rodata contains 'EXCEPTION: UNDEFINED INSTRUCTION'
+[PASS] .rodata contains 'EXCEPTION: DATA ABORT'
 [PASS] .bss is NOBITS
 [PASS] .stack is NOBITS
-[PASS] .text follows .vectors
+[PASS] .text follows the vector table
 [PASS] .rodata follows .text
 [PASS] .data is absent or follows .rodata
 [PASS] .bss follows .data
 [PASS] .stack follows .bss
+[PASS] reserved low memory contains no other allocated section
+[PASS] __vectors_start__ is 0
+[PASS] __vectors_end__ is 32
 [PASS] __bss_start__ matches .bss
 [PASS] __bss_end__ matches .bss end
 [PASS] BSS size is positive and 8-byte aligned
-[PASS] __stack_bottom__ matches .stack
-[PASS] __stack_top__ matches .stack end
-[PASS] stack is 16 KiB
-[PASS] stack top is 8-byte aligned
-[PASS] __image_start__ is image base
-[PASS] __image_end__ is end of .stack
-[PASS] image fits the 64 KiB K1 budget
+[PASS] __image_start__ is 0x00010000
+[PASS] __image_start__ is the start of .text
+[PASS] __image_end__ is the end of .stack
+[PASS] image fits the 64 KiB K2 budget
 [PASS] image fits emulated RAM
-[PASS] at least two PT_LOAD segments
+[PASS] SVC stack has the expected size
+[PASS] SVC stack bottom is 8-byte aligned
+[PASS] SVC stack top is 8-byte aligned
+[PASS] __stack_bottom__ aliases the SVC stack
+[PASS] __stack_top__ aliases the SVC stack
+[PASS] __stack_size__ is 16 KiB
+[PASS] UND stack has the expected size
+[PASS] UND stack bottom is 8-byte aligned
+[PASS] UND stack top is 8-byte aligned
+[PASS] ABT stack has the expected size
+[PASS] ABT stack bottom is 8-byte aligned
+[PASS] ABT stack top is 8-byte aligned
+[PASS] IRQ stack has the expected size
+[PASS] IRQ stack bottom is 8-byte aligned
+[PASS] IRQ stack top is 8-byte aligned
+[PASS] FIQ stack has the expected size
+[PASS] FIQ stack bottom is 8-byte aligned
+[PASS] FIQ stack top is 8-byte aligned
+[PASS] stack regions are contiguous and ordered
+[PASS] image ends at the top of the last stack
+[PASS] __k2_sctlr_boot is in .bss
+[PASS] compiled exception frame is 72 bytes
+[PASS] compiled exception frame is 8-byte aligned
+[PASS] at least three PT_LOAD segments
 [PASS] no PT_DYNAMIC / PT_INTERP
-[PASS] first PT_LOAD starts at image base
-[PASS] first PT_LOAD is executable
+[PASS] vector table has its own PT_LOAD at address 0
+[PASS] vector segment is exactly 32 bytes on disk
+[PASS] vector segment is exactly 32 bytes in memory
+[PASS] vector segment is executable
+[PASS] kernel text has a PT_LOAD at 0x00010000
+[PASS] first PT_LOAD starts at address 0
 [PASS] all segments have p_vaddr == p_paddr
 [PASS] all segments have p_memsz >= p_filesz
 [PASS] all segments fit emulated RAM
+[PASS] no PT_LOAD segments overlap
 [PASS] entry point is inside a loaded segment
 [PASS] some PT_LOAD is writable
+[PASS] normal profile contains the K2 IDLE marker
+[PASS] normal profile does not contain a fault test selector
 [PASS] no undefined symbols
 [PASS] no implicit libc/libgcc helpers
 [PASS] .comment was discarded
-[PASS] flat binary starts at image base
+[PASS] flat binary starts at the vector base
 [PASS] flat binary size matches allocated sections
 [PASS] flat binary content matches ELF load image
 
-ELF CHECK: PASS (63 checks)
+ELF CHECK [normal]: PASS (105 checks)
+=== ELF check: undef ===
+ELF file: C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf
+[PASS] ELF magic
+[PASS] ELF class is 32-bit
+[PASS] ELF data is little-endian
+[PASS] ELF version is 1
+[PASS] ELF type is ET_EXEC
+[PASS] ELF machine is EM_ARM
+[PASS] EABI version is 5
+[PASS] soft-float ABI (no hard-float flag)
+[PASS] header sizes are ELF32
+[PASS] entry point is 0x00010000
+[PASS] _start is at 0x00010000
+[PASS] _start is a global function
+[PASS] reset_handler is at _start
+[PASS] reset_handler is a function
+[PASS] kernel_main is a function
+[PASS] .vectors is at address 0
+[PASS] .vectors is executable and allocated
+[PASS] .vectors is exactly 32 bytes
+[PASS] .text starts at the image base
+[PASS] _start and reset_handler live in .text
+[PASS] kernel_main lives in .text
+[PASS] vector 0x00 branches to reset_handler
+[PASS] vector 0x00 has a defined target
+[PASS] vector 0x04 branches to undef_entry
+[PASS] vector 0x04 has a defined target
+[PASS] vector 0x08 branches to svc_entry
+[PASS] vector 0x08 has a defined target
+[PASS] vector 0x0c branches to prefetch_entry
+[PASS] vector 0x0c has a defined target
+[PASS] vector 0x10 branches to data_abort_entry
+[PASS] vector 0x10 has a defined target
+[PASS] vector 0x14 branches to reserved_entry
+[PASS] vector 0x14 has a defined target
+[PASS] vector 0x18 branches to irq_entry
+[PASS] vector 0x18 has a defined target
+[PASS] vector 0x1c branches to fiq_entry
+[PASS] vector 0x1c has a defined target
+[PASS] .text is executable and non-empty
+[PASS] .rodata contains 'MINITOS KERNEL STARTED'
+[PASS] .rodata contains 'K2 EXCEPTION CAPTURED'
+[PASS] .rodata contains 'EXCEPTION: UNDEFINED INSTRUCTION'
+[PASS] .rodata contains 'EXCEPTION: DATA ABORT'
+[PASS] .bss is NOBITS
+[PASS] .stack is NOBITS
+[PASS] .text follows the vector table
+[PASS] .rodata follows .text
+[PASS] .data is absent or follows .rodata
+[PASS] .bss follows .data
+[PASS] .stack follows .bss
+[PASS] reserved low memory contains no other allocated section
+[PASS] __vectors_start__ is 0
+[PASS] __vectors_end__ is 32
+[PASS] __bss_start__ matches .bss
+[PASS] __bss_end__ matches .bss end
+[PASS] BSS size is positive and 8-byte aligned
+[PASS] __image_start__ is 0x00010000
+[PASS] __image_start__ is the start of .text
+[PASS] __image_end__ is the end of .stack
+[PASS] image fits the 64 KiB K2 budget
+[PASS] image fits emulated RAM
+[PASS] SVC stack has the expected size
+[PASS] SVC stack bottom is 8-byte aligned
+[PASS] SVC stack top is 8-byte aligned
+[PASS] __stack_bottom__ aliases the SVC stack
+[PASS] __stack_top__ aliases the SVC stack
+[PASS] __stack_size__ is 16 KiB
+[PASS] UND stack has the expected size
+[PASS] UND stack bottom is 8-byte aligned
+[PASS] UND stack top is 8-byte aligned
+[PASS] ABT stack has the expected size
+[PASS] ABT stack bottom is 8-byte aligned
+[PASS] ABT stack top is 8-byte aligned
+[PASS] IRQ stack has the expected size
+[PASS] IRQ stack bottom is 8-byte aligned
+[PASS] IRQ stack top is 8-byte aligned
+[PASS] FIQ stack has the expected size
+[PASS] FIQ stack bottom is 8-byte aligned
+[PASS] FIQ stack top is 8-byte aligned
+[PASS] stack regions are contiguous and ordered
+[PASS] image ends at the top of the last stack
+[PASS] __k2_sctlr_boot is in .bss
+[PASS] compiled exception frame is 72 bytes
+[PASS] compiled exception frame is 8-byte aligned
+[PASS] at least three PT_LOAD segments
+[PASS] no PT_DYNAMIC / PT_INTERP
+[PASS] vector table has its own PT_LOAD at address 0
+[PASS] vector segment is exactly 32 bytes on disk
+[PASS] vector segment is exactly 32 bytes in memory
+[PASS] vector segment is executable
+[PASS] kernel text has a PT_LOAD at 0x00010000
+[PASS] first PT_LOAD starts at address 0
+[PASS] all segments have p_vaddr == p_paddr
+[PASS] all segments have p_memsz >= p_filesz
+[PASS] all segments fit emulated RAM
+[PASS] no PT_LOAD segments overlap
+[PASS] entry point is inside a loaded segment
+[PASS] some PT_LOAD is writable
+[PASS] undef profile contains the test selector
+[PASS] k2_trigger_undef contains a real UDF instruction
+[PASS] no undefined symbols
+[PASS] no implicit libc/libgcc helpers
+[PASS] .comment was discarded
+[PASS] flat binary starts at the vector base
+[PASS] flat binary size matches allocated sections
+[PASS] flat binary content matches ELF load image
+
+ELF CHECK [undef]: PASS (105 checks)
+=== ELF check: data-abort ===
+ELF file: C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf
+[PASS] ELF magic
+[PASS] ELF class is 32-bit
+[PASS] ELF data is little-endian
+[PASS] ELF version is 1
+[PASS] ELF type is ET_EXEC
+[PASS] ELF machine is EM_ARM
+[PASS] EABI version is 5
+[PASS] soft-float ABI (no hard-float flag)
+[PASS] header sizes are ELF32
+[PASS] entry point is 0x00010000
+[PASS] _start is at 0x00010000
+[PASS] _start is a global function
+[PASS] reset_handler is at _start
+[PASS] reset_handler is a function
+[PASS] kernel_main is a function
+[PASS] .vectors is at address 0
+[PASS] .vectors is executable and allocated
+[PASS] .vectors is exactly 32 bytes
+[PASS] .text starts at the image base
+[PASS] _start and reset_handler live in .text
+[PASS] kernel_main lives in .text
+[PASS] vector 0x00 branches to reset_handler
+[PASS] vector 0x00 has a defined target
+[PASS] vector 0x04 branches to undef_entry
+[PASS] vector 0x04 has a defined target
+[PASS] vector 0x08 branches to svc_entry
+[PASS] vector 0x08 has a defined target
+[PASS] vector 0x0c branches to prefetch_entry
+[PASS] vector 0x0c has a defined target
+[PASS] vector 0x10 branches to data_abort_entry
+[PASS] vector 0x10 has a defined target
+[PASS] vector 0x14 branches to reserved_entry
+[PASS] vector 0x14 has a defined target
+[PASS] vector 0x18 branches to irq_entry
+[PASS] vector 0x18 has a defined target
+[PASS] vector 0x1c branches to fiq_entry
+[PASS] vector 0x1c has a defined target
+[PASS] .text is executable and non-empty
+[PASS] .rodata contains 'MINITOS KERNEL STARTED'
+[PASS] .rodata contains 'K2 EXCEPTION CAPTURED'
+[PASS] .rodata contains 'EXCEPTION: UNDEFINED INSTRUCTION'
+[PASS] .rodata contains 'EXCEPTION: DATA ABORT'
+[PASS] .bss is NOBITS
+[PASS] .stack is NOBITS
+[PASS] .text follows the vector table
+[PASS] .rodata follows .text
+[PASS] .data is absent or follows .rodata
+[PASS] .bss follows .data
+[PASS] .stack follows .bss
+[PASS] reserved low memory contains no other allocated section
+[PASS] __vectors_start__ is 0
+[PASS] __vectors_end__ is 32
+[PASS] __bss_start__ matches .bss
+[PASS] __bss_end__ matches .bss end
+[PASS] BSS size is positive and 8-byte aligned
+[PASS] __image_start__ is 0x00010000
+[PASS] __image_start__ is the start of .text
+[PASS] __image_end__ is the end of .stack
+[PASS] image fits the 64 KiB K2 budget
+[PASS] image fits emulated RAM
+[PASS] SVC stack has the expected size
+[PASS] SVC stack bottom is 8-byte aligned
+[PASS] SVC stack top is 8-byte aligned
+[PASS] __stack_bottom__ aliases the SVC stack
+[PASS] __stack_top__ aliases the SVC stack
+[PASS] __stack_size__ is 16 KiB
+[PASS] UND stack has the expected size
+[PASS] UND stack bottom is 8-byte aligned
+[PASS] UND stack top is 8-byte aligned
+[PASS] ABT stack has the expected size
+[PASS] ABT stack bottom is 8-byte aligned
+[PASS] ABT stack top is 8-byte aligned
+[PASS] IRQ stack has the expected size
+[PASS] IRQ stack bottom is 8-byte aligned
+[PASS] IRQ stack top is 8-byte aligned
+[PASS] FIQ stack has the expected size
+[PASS] FIQ stack bottom is 8-byte aligned
+[PASS] FIQ stack top is 8-byte aligned
+[PASS] stack regions are contiguous and ordered
+[PASS] image ends at the top of the last stack
+[PASS] __k2_sctlr_boot is in .bss
+[PASS] compiled exception frame is 72 bytes
+[PASS] compiled exception frame is 8-byte aligned
+[PASS] at least three PT_LOAD segments
+[PASS] no PT_DYNAMIC / PT_INTERP
+[PASS] vector table has its own PT_LOAD at address 0
+[PASS] vector segment is exactly 32 bytes on disk
+[PASS] vector segment is exactly 32 bytes in memory
+[PASS] vector segment is executable
+[PASS] kernel text has a PT_LOAD at 0x00010000
+[PASS] first PT_LOAD starts at address 0
+[PASS] all segments have p_vaddr == p_paddr
+[PASS] all segments have p_memsz >= p_filesz
+[PASS] all segments fit emulated RAM
+[PASS] no PT_LOAD segments overlap
+[PASS] entry point is inside a loaded segment
+[PASS] some PT_LOAD is writable
+[PASS] data-abort profile contains the test selector
+[PASS] k2_trigger_data_abort does add #1 then LDR [r0]
+[PASS] alignment probe is 16-byte aligned
+[PASS] alignment probe is four words
+[PASS] no undefined symbols
+[PASS] no implicit libc/libgcc helpers
+[PASS] .comment was discarded
+[PASS] flat binary starts at the vector base
+[PASS] flat binary size matches allocated sections
+[PASS] flat binary content matches ELF load image
+
+ELF CHECK [data-abort]: PASS (107 checks)
+ELF CHECK: PASS (3 profile(s))
 
 === [3/5] QEMU platform ===
 $ C:\Python315\python.exe tools/verify_platform.py
@@ -100,56 +391,236 @@ PLATFORM CHECK: PASS (7 checks)
 
 === [4/5] runtime execution ===
 $ C:\Python315\python.exe tools/run_qemu.py
-QEMU: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf -display none -monitor none -serial file:build\serial.log -no-reboot -d guest_errors -D build\qemu-guest-errors.log
+=== runtime: normal ===
+QEMU: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\normal\minitos-k2.elf -display none -monitor none -serial file:build\run\normal\serial.log -no-reboot -d guest_errors -D build\run\normal\guest-errors.log
 [PASS] guest produced serial output
-[PASS] first serial line is the K1 banner
+[PASS] first serial line is the MinitOS banner
 [PASS] board diagnostic is present
 [PASS] UART diagnostic is present
 [PASS] CPU MIDR is reported
 [PASS] CPU implementer is ARM (0x41)
 [PASS] CPU part is ARM1136 (0xB36)
+[PASS] low vector base is reported
+[PASS] boot SCTLR is reported
+[PASS] SCTLR.V is 0 (low vectors)
+[PASS] startup CPSR is reported
+[PASS] startup mode is SVC
+[PASS] startup IRQ is masked
+[PASS] startup FIQ is masked
+[PASS] exception frame size is 72 bytes
+[PASS] exception frame alignment is 8
+[PASS] SVC stack is reported
+[PASS] UND stack is reported
+[PASS] ABT stack is reported
+[PASS] IRQ stack is reported
+[PASS] FIQ stack is reported
+[PASS] terminal marker 'K2 IDLE' is present
+[PASS] terminal marker is the last serial line
+[PASS] guest did not reboot after the terminal marker
+[PASS] normal profile selector is present
+[PASS] normal profile has no exception output
+[PASS] normal run has SCTLR.A=0 and SCTLR.U=0
 [PASS] QEMU guest-error log is empty
-
 serial output:
   | MINITOS KERNEL STARTED
   | board: integratorcp
   | uart: pl011 @ 0x16000000
   | cpu midr: 0x4117b363
-  | idle
-evidence: C:\Users\scs\Documents\minitos-k1\build\runtime-evidence.txt
-RUNTIME CHECK: PASS (8 checks)
+  | K2 vectors: low @ 0x00000000
+  | K2 sctlr: 0x00050078
+  | K2 cpsr: 0x600001d3
+  | K2 frame bytes: 0x00000048
+  | K2 frame align: 0x00000008
+  | K2 stack svc: 0x00010c98 - 0x00014c98
+  | K2 stack und: 0x00014c98 - 0x00015c98
+  | K2 stack abt: 0x00015c98 - 0x00016c98
+  | K2 stack irq: 0x00016c98 - 0x00017498
+  | K2 stack fiq: 0x00017498 - 0x00017898
+  | K2 test: normal
+  | K2 IDLE
+evidence: C:\Users\scs\Documents\minitos-k1\build\run\normal\runtime-evidence.txt
+
+=== runtime: undef ===
+QEMU: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf -display none -monitor none -serial file:build\run\undef\serial.log -no-reboot -d guest_errors -D build\run\undef\guest-errors.log
+[PASS] guest produced serial output
+[PASS] first serial line is the MinitOS banner
+[PASS] board diagnostic is present
+[PASS] UART diagnostic is present
+[PASS] CPU MIDR is reported
+[PASS] CPU implementer is ARM (0x41)
+[PASS] CPU part is ARM1136 (0xB36)
+[PASS] low vector base is reported
+[PASS] boot SCTLR is reported
+[PASS] SCTLR.V is 0 (low vectors)
+[PASS] startup CPSR is reported
+[PASS] startup mode is SVC
+[PASS] startup IRQ is masked
+[PASS] startup FIQ is masked
+[PASS] exception frame size is 72 bytes
+[PASS] exception frame alignment is 8
+[PASS] SVC stack is reported
+[PASS] UND stack is reported
+[PASS] ABT stack is reported
+[PASS] IRQ stack is reported
+[PASS] FIQ stack is reported
+[PASS] terminal marker 'K2 EXCEPTION CAPTURED' is present
+[PASS] terminal marker is the last serial line
+[PASS] guest did not reboot after the terminal marker
+[PASS] undefined-instruction test selector is present
+[PASS] undefined instruction exception was reported
+[PASS] UND vector offset is 0x00000004
+[PASS] handler mode is UND
+[PASS] handler CPSR is UND mode
+[PASS] handler IRQ is masked
+[PASS] handler FIQ is masked
+[PASS] interrupted context was SVC
+[PASS] LR_und and fault_pc differ by 4
+[PASS] fault_pc lies in the loaded kernel image
+[PASS] saved r0 sentinel matches
+[PASS] saved r1 sentinel matches
+[PASS] saved r12 sentinel matches
+[PASS] QEMU guest-error log is empty
+serial output:
+  | MINITOS KERNEL STARTED
+  | board: integratorcp
+  | uart: pl011 @ 0x16000000
+  | cpu midr: 0x4117b363
+  | K2 vectors: low @ 0x00000000
+  | K2 sctlr: 0x00050078
+  | K2 cpsr: 0x600001d3
+  | K2 frame bytes: 0x00000048
+  | K2 frame align: 0x00000008
+  | K2 stack svc: 0x00010d50 - 0x00014d50
+  | K2 stack und: 0x00014d50 - 0x00015d50
+  | K2 stack abt: 0x00015d50 - 0x00016d50
+  | K2 stack irq: 0x00016d50 - 0x00017550
+  | K2 stack fiq: 0x00017550 - 0x00017950
+  | K2 test: undefined
+  | EXCEPTION: UNDEFINED INSTRUCTION
+  | vector: 0x00000004
+  | mode: UND
+  | handler_cpsr: 0x600001db
+  | lr: 0x00010240
+  | spsr: 0x600001d3
+  | spsr_mode: SVC
+  | fault_pc: 0x0001023c
+  | r0: 0x4b2d0001
+  | r1: 0x4b2d0002
+  | r2: 0x16000018
+  | r12: 0x4b2d000c
+  | K2 EXCEPTION CAPTURED
+evidence: C:\Users\scs\Documents\minitos-k1\build\run\undef\runtime-evidence.txt
+
+=== runtime: data-abort ===
+QEMU: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf -display none -monitor none -serial file:build\run\data-abort\serial.log -no-reboot -d guest_errors -D build\run\data-abort\guest-errors.log
+[PASS] guest produced serial output
+[PASS] first serial line is the MinitOS banner
+[PASS] board diagnostic is present
+[PASS] UART diagnostic is present
+[PASS] CPU MIDR is reported
+[PASS] CPU implementer is ARM (0x41)
+[PASS] CPU part is ARM1136 (0xB36)
+[PASS] low vector base is reported
+[PASS] boot SCTLR is reported
+[PASS] SCTLR.V is 0 (low vectors)
+[PASS] startup CPSR is reported
+[PASS] startup mode is SVC
+[PASS] startup IRQ is masked
+[PASS] startup FIQ is masked
+[PASS] exception frame size is 72 bytes
+[PASS] exception frame alignment is 8
+[PASS] SVC stack is reported
+[PASS] UND stack is reported
+[PASS] ABT stack is reported
+[PASS] IRQ stack is reported
+[PASS] FIQ stack is reported
+[PASS] terminal marker 'K2 EXCEPTION CAPTURED' is present
+[PASS] terminal marker is the last serial line
+[PASS] guest did not reboot after the terminal marker
+[PASS] data-abort test selector is present
+[PASS] pre-test SCTLR is reported
+[PASS] post-test SCTLR is reported
+[PASS] SCTLR.A and SCTLR.U read back as 1
+[PASS] alignment probe address is reported
+[PASS] alignment probe is 16-byte aligned
+[PASS] data abort exception was reported
+[PASS] Data Abort vector offset is 0x00000010
+[PASS] handler mode is ABT
+[PASS] handler CPSR is ABT mode
+[PASS] handler IRQ is masked
+[PASS] handler FIQ is masked
+[PASS] interrupted context was SVC
+[PASS] DFSR is reported
+[PASS] DFSR status is Alignment Fault (0b00001)
+[PASS] DFAR equals the unaligned probe address probe+1
+[PASS] LR_abt and fault_pc differ by 8
+[PASS] fault_pc lies in the loaded kernel image
+[PASS] saved r0 equals the unaligned probe address
+[PASS] saved r1 sentinel matches
+[PASS] saved r2 sentinel matches
+[PASS] saved r12 sentinel matches
+[PASS] QEMU guest-error log is empty
+serial output:
+  | MINITOS KERNEL STARTED
+  | board: integratorcp
+  | uart: pl011 @ 0x16000000
+  | cpu midr: 0x4117b363
+  | K2 vectors: low @ 0x00000000
+  | K2 sctlr: 0x00050078
+  | K2 cpsr: 0x600001d3
+  | K2 frame bytes: 0x00000048
+  | K2 frame align: 0x00000008
+  | K2 stack svc: 0x00010e60 - 0x00014e60
+  | K2 stack und: 0x00014e60 - 0x00015e60
+  | K2 stack abt: 0x00015e60 - 0x00016e60
+  | K2 stack irq: 0x00016e60 - 0x00017660
+  | K2 stack fiq: 0x00017660 - 0x00017a60
+  | K2 test: data-abort
+  | K2 sctlr before: 0x00050078
+  | K2 sctlr after: 0x0045007a
+  | K2 alignment probe: 0x00010e40
+  | EXCEPTION: DATA ABORT
+  | vector: 0x00000010
+  | mode: ABT
+  | handler_cpsr: 0x600001d7
+  | lr: 0x0001026c
+  | spsr: 0x600001d3
+  | spsr_mode: SVC
+  | dfsr: 0x00000001
+  | dfar: 0x00010e41
+  | fault_pc: 0x00010264
+  | r0: 0x00010e41
+  | r1: 0x4b2d0002
+  | r2: 0x4b2d0003
+  | r12: 0x4b2d000c
+  | K2 EXCEPTION CAPTURED
+evidence: C:\Users\scs\Documents\minitos-k1\build\run\data-abort\runtime-evidence.txt
+
+runtime summary:
+  normal: see build/run/normal/runtime-evidence.txt
+  undef: see build/run/undef/runtime-evidence.txt
+  data-abort: see build/run/data-abort/runtime-evidence.txt
+RUNTIME CHECK: PASS (3 profiles, 113 checks)
 
 === [5/5] reproducible build ===
 $ C:\Python315\python.exe tools/build.py repro
-building repro-a ...
-toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
-ELF       : C:\Users\scs\Documents\minitos-k1\build\repro-a\minitos-k1.elf (18200 bytes)
-  sha256  : 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1
-BIN       : C:\Users\scs\Documents\minitos-k1\build\repro-a\minitos-k1.bin (1133 bytes)
-  sha256  : 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
-size      :
-  text	   data	    bss	    dec	    hex	filename
-     1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\repro-a\minitos-k1.elf
-stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
-artifacts : C:\Users\scs\Documents\minitos-k1\build\repro-a
-building repro-b ...
-toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
-ELF       : C:\Users\scs\Documents\minitos-k1\build\repro-b\minitos-k1.elf (18200 bytes)
-  sha256  : 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1
-BIN       : C:\Users\scs\Documents\minitos-k1\build\repro-b\minitos-k1.bin (1133 bytes)
-  sha256  : 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
-size      :
-  text	   data	    bss	    dec	    hex	filename
-     1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\repro-b\minitos-k1.elf
-stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
-artifacts : C:\Users\scs\Documents\minitos-k1\build\repro-b
-minitos-k1.elf: 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1  MATCH
-minitos-k1.bin: 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30  MATCH
+building repro-a/normal ...
+building repro-b/normal ...
+building repro-a/undef ...
+building repro-b/undef ...
+building repro-a/data-abort ...
+building repro-b/data-abort ...
+normal/minitos-k2.elf: 176d1acc5b21432d9cc8f227f1572576c63b9e1038a4f0575a7ee35d863ea63c  MATCH
+normal/minitos-k2.bin: 4ab2ca63f5c5a8e923d293209da93ae39a1d53b7b4df5add27ba248676bcd2db  MATCH
+undef/minitos-k2.elf: 23e8aafa191e731f17bf227d7af1fcd9ad77940e9eb2602ca12d75e898dc2273  MATCH
+undef/minitos-k2.bin: ad23fd42f4cbd5bffa1fdf7eadfe3362f302913251eebec35232c62d89122e2b  MATCH
+data-abort/minitos-k2.elf: 306bf5bc6509cbdcc856bbe353e115cc93d1330f0e67135d381e6c9e35b9330a  MATCH
+data-abort/minitos-k2.bin: 792e6e91e7287e220b83200849ed1c09d09ce6350a27c4aae5a13614e1a47ba7  MATCH
 REPRODUCIBLE BUILD: PASS
 
 
 summary:
-  [PASS] build
+  [PASS] build all profiles
   [PASS] ELF structure
   [PASS] QEMU platform
   [PASS] runtime execution

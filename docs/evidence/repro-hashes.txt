@@ -1,0 +1,6 @@
+normal/minitos-k2.elf: 176d1acc5b21432d9cc8f227f1572576c63b9e1038a4f0575a7ee35d863ea63c  MATCH
+normal/minitos-k2.bin: 4ab2ca63f5c5a8e923d293209da93ae39a1d53b7b4df5add27ba248676bcd2db  MATCH
+undef/minitos-k2.elf: 23e8aafa191e731f17bf227d7af1fcd9ad77940e9eb2602ca12d75e898dc2273  MATCH
+undef/minitos-k2.bin: ad23fd42f4cbd5bffa1fdf7eadfe3362f302913251eebec35232c62d89122e2b  MATCH
+data-abort/minitos-k2.elf: 306bf5bc6509cbdcc856bbe353e115cc93d1330f0e67135d381e6c9e35b9330a  MATCH
+data-abort/minitos-k2.bin: 792e6e91e7287e220b83200849ed1c09d09ce6350a27c4aae5a13614e1a47ba7  MATCH

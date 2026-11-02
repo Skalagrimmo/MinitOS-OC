@@ -1,0 +1,47 @@
+===== k2_trigger_undef =====
+C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010230 <k2_trigger_undef>:
+   10230:	e59f000c 	ldr	r0, [pc, #12]	@ 10244 <k2_trigger_undef+0x14>
+   10234:	e59f100c 	ldr	r1, [pc, #12]	@ 10248 <k2_trigger_undef+0x18>
+   10238:	e59fc00c 	ldr	ip, [pc, #12]	@ 1024c <k2_trigger_undef+0x1c>
+   1023c:	e7f000f0 	udf	#0
+   10240:	e12fff1e 	bx	lr
+
+===== k2_trigger_data_abort =====
+C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010250 <k2_trigger_data_abort>:
+   10250:	e59f0014 	ldr	r0, [pc, #20]	@ 1026c <k2_trigger_data_abort+0x1c>
+   10254:	e59f1014 	ldr	r1, [pc, #20]	@ 10270 <k2_trigger_data_abort+0x20>
+   10258:	e59f2014 	ldr	r2, [pc, #20]	@ 10274 <k2_trigger_data_abort+0x24>
+   1025c:	e59fc014 	ldr	ip, [pc, #20]	@ 10278 <k2_trigger_data_abort+0x28>
+   10260:	e2800001 	add	r0, r0, #1
+   10264:	e5901000 	ldr	r1, [r0]
+   10268:	e12fff1e 	bx	lr
+
+===== k2_undef_test =====
+C:\Users\scs\Documents\minitos-k1\build\undef\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010808 <k2_undef_test>:
+   10808:	e92d4010 	push	{r4, lr}
+   1080c:	ebfffe87 	bl	10230 <k2_trigger_undef>
+   10810:	e59f0000 	ldr	r0, [pc]	@ 10818 <k2_undef_test+0x10>
+   10814:	ebfffff2 	bl	107e4 <test_failed>
+   10818:	00010b70 	.word	0x00010b70
+

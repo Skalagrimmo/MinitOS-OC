@@ -9,7 +9,7 @@
  * The driver knows only the PL011 register model. It does not know which
  * board it is on and it does not use interrupts. RX is enabled so that a
  * later console-input module can be added without changing the initialisation
- * sequence, but K1 never reads it.
+ * sequence, but K2 never reads it.
  */
 struct pl011 {
     uintptr_t base;

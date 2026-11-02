@@ -1,0 +1,33 @@
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+K2 vectors: low @ 0x00000000
+K2 sctlr: 0x00050078
+K2 cpsr: 0x600001d3
+K2 frame bytes: 0x00000048
+K2 frame align: 0x00000008
+K2 stack svc: 0x00010e60 - 0x00014e60
+K2 stack und: 0x00014e60 - 0x00015e60
+K2 stack abt: 0x00015e60 - 0x00016e60
+K2 stack irq: 0x00016e60 - 0x00017660
+K2 stack fiq: 0x00017660 - 0x00017a60
+K2 test: data-abort
+K2 sctlr before: 0x00050078
+K2 sctlr after: 0x0045007a
+K2 alignment probe: 0x00010e40
+EXCEPTION: DATA ABORT
+vector: 0x00000010
+mode: ABT
+handler_cpsr: 0x600001d7
+lr: 0x0001026c
+spsr: 0x600001d3
+spsr_mode: SVC
+dfsr: 0x00000001
+dfar: 0x00010e41
+fault_pc: 0x00010264
+r0: 0x00010e41
+r1: 0x4b2d0002
+r2: 0x4b2d0003
+r12: 0x4b2d000c
+K2 EXCEPTION CAPTURED

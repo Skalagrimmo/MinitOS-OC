@@ -1,0 +1,82 @@
+===== k2_trigger_undef =====
+C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010230 <k2_trigger_undef>:
+   10230:	e59f000c 	ldr	r0, [pc, #12]	@ 10244 <k2_trigger_undef+0x14>
+   10234:	e59f100c 	ldr	r1, [pc, #12]	@ 10248 <k2_trigger_undef+0x18>
+   10238:	e59fc00c 	ldr	ip, [pc, #12]	@ 1024c <k2_trigger_undef+0x1c>
+   1023c:	e7f000f0 	udf	#0
+   10240:	e12fff1e 	bx	lr
+
+===== k2_trigger_data_abort =====
+C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010250 <k2_trigger_data_abort>:
+   10250:	e59f0014 	ldr	r0, [pc, #20]	@ 1026c <k2_trigger_data_abort+0x1c>
+   10254:	e59f1014 	ldr	r1, [pc, #20]	@ 10270 <k2_trigger_data_abort+0x20>
+   10258:	e59f2014 	ldr	r2, [pc, #20]	@ 10274 <k2_trigger_data_abort+0x24>
+   1025c:	e59fc014 	ldr	ip, [pc, #20]	@ 10278 <k2_trigger_data_abort+0x28>
+   10260:	e2800001 	add	r0, r0, #1
+   10264:	e5901000 	ldr	r1, [r0]
+   10268:	e12fff1e 	bx	lr
+
+===== k2_data_abort_test =====
+C:\Users\scs\Documents\minitos-k1\build\data-abort\minitos-k2.elf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+Disassembly of section .text:
+
+00010828 <k2_data_abort_test>:
+   10828:	e92d4010 	push	{r4, lr}
+   1082c:	ebfffe94 	bl	10284 <cpu_read_sctlr>
+   10830:	e59f4074 	ldr	r4, [pc, #116]	@ 108ac <k2_data_abort_test+0x84>
+   10834:	e1a06000 	mov	r6, r0
+   10838:	e1800004 	orr	r0, r0, r4
+   1083c:	ebfffe92 	bl	1028c <cpu_write_sctlr>
+   10840:	ebfffe93 	bl	10294 <cpu_sync>
+   10844:	ebfffe8e 	bl	10284 <cpu_read_sctlr>
+   10848:	e1a05000 	mov	r5, r0
+   1084c:	e59f005c 	ldr	r0, [pc, #92]	@ 108b0 <k2_data_abort_test+0x88>
+   10850:	ebffff6e 	bl	10610 <console_write>
+   10854:	e1a00006 	mov	r0, r6
+   10858:	ebffffb1 	bl	10724 <console_write_hex32>
+   1085c:	e3a0000a 	mov	r0, #10
+   10860:	ebffff53 	bl	105b4 <console_putc>
+   10864:	e59f0048 	ldr	r0, [pc, #72]	@ 108b4 <k2_data_abort_test+0x8c>
+   10868:	ebffff68 	bl	10610 <console_write>
+   1086c:	e1a00005 	mov	r0, r5
+   10870:	ebffffab 	bl	10724 <console_write_hex32>
+   10874:	e3a0000a 	mov	r0, #10
+   10878:	ebffff4d 	bl	105b4 <console_putc>
+   1087c:	e59f0034 	ldr	r0, [pc, #52]	@ 108b8 <k2_data_abort_test+0x90>
+   10880:	ebffff62 	bl	10610 <console_write>
+   10884:	e59f0030 	ldr	r0, [pc, #48]	@ 108bc <k2_data_abort_test+0x94>
+   10888:	ebffffa5 	bl	10724 <console_write_hex32>
+   1088c:	e3a0000a 	mov	r0, #10
+   10890:	ebffff47 	bl	105b4 <console_putc>
+   10894:	e1d44005 	bics	r4, r4, r5
+   10898:	159f0020 	ldrne	r0, [pc, #32]	@ 108c0 <k2_data_abort_test+0x98>
+   1089c:	1bffffd8 	blne	10804 <test_failed>
+   108a0:	ebfffe6a 	bl	10250 <k2_trigger_data_abort>
+   108a4:	e59f0018 	ldr	r0, [pc, #24]	@ 108c4 <k2_data_abort_test+0x9c>
+   108a8:	ebffffd5 	bl	10804 <test_failed>
+   108ac:	00400002 	.word	0x00400002
+   108b0:	00010c1c 	.word	0x00010c1c
+   108b4:	00010c30 	.word	0x00010c30
+   108b8:	00010c44 	.word	0x00010c44
+   108bc:	00010e40 	.word	0x00010e40
+   108c0:	00010c5c 	.word	0x00010c5c
+   108c4:	00010c7c 	.word	0x00010c7c
+

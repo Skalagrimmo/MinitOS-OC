@@ -1,0 +1,21 @@
+MinitOS K1 runtime evidence
+qemu: C:\Program Files\qemu\qemu-system-arm.exe
+QEMU emulator version 11.1.0 (v11.1.0-12130-ge470268ff4)
+command: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf -display none -monitor none -serial file:build\serial.log -no-reboot -d guest_errors -D build\qemu-guest-errors.log
+
+checks:
+[PASS] guest produced serial output
+[PASS] first serial line is the K1 banner
+[PASS] board diagnostic is present
+[PASS] UART diagnostic is present
+[PASS] CPU MIDR is reported
+[PASS] CPU implementer is ARM (0x41)
+[PASS] CPU part is ARM1136 (0xB36)
+[PASS] QEMU guest-error log is empty
+
+serial output:
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+idle

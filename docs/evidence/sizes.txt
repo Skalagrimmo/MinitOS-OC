@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+   1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf

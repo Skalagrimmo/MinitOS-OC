@@ -1,0 +1,9 @@
+build/
+*.o
+*.su
+*.elf
+*.bin
+*.map
+*.log
+__pycache__/
+*.pyc

@@ -1,0 +1,158 @@
+MinitOS K1 acceptance run
+started: 2026-11-02T10:43:47+02:00
+root: C:\Users\scs\Documents\minitos-k1
+
+=== [1/5] build ===
+$ C:\Python315\python.exe tools/build.py build
+toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
+ELF       : C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf (18200 bytes)
+  sha256  : 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1
+BIN       : C:\Users\scs\Documents\minitos-k1\build\minitos-k1.bin (1133 bytes)
+  sha256  : 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
+size      :
+  text	   data	    bss	    dec	    hex	filename
+     1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf
+stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
+artifacts : C:\Users\scs\Documents\minitos-k1\build
+
+=== [2/5] ELF structure ===
+$ C:\Python315\python.exe tools/build.py verify --no-build
+ELF file: C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf
+[PASS] ELF magic
+[PASS] ELF class is 32-bit
+[PASS] ELF data is little-endian
+[PASS] ELF version is 1
+[PASS] ELF type is ET_EXEC
+[PASS] ELF machine is EM_ARM
+[PASS] EABI version is 5
+[PASS] soft-float ABI (no hard-float flag)
+[PASS] header sizes are ELF32
+[PASS] entry point is 0x00010000
+[PASS] _start is at image base
+[PASS] _start is a global function
+[PASS] _start covers the 8-word vector table
+[PASS] reset_handler is a function
+[PASS] kernel_main is a function
+[PASS] .vectors is at image base
+[PASS] .vectors is executable and allocated
+[PASS] .vectors is exactly 32 bytes
+[PASS] reset_handler lives in .text
+[PASS] kernel_main lives in .text
+[PASS] reset vector branches to reset_handler
+[PASS] vector 1 is a self-loop trap
+[PASS] vector 2 is a self-loop trap
+[PASS] vector 3 is a self-loop trap
+[PASS] vector 4 is a self-loop trap
+[PASS] vector 5 is a self-loop trap
+[PASS] vector 6 is a self-loop trap
+[PASS] vector 7 is a self-loop trap
+[PASS] .text is executable and non-empty
+[PASS] .rodata contains the K1 banner
+[PASS] .bss is NOBITS
+[PASS] .stack is NOBITS
+[PASS] .text follows .vectors
+[PASS] .rodata follows .text
+[PASS] .data is absent or follows .rodata
+[PASS] .bss follows .data
+[PASS] .stack follows .bss
+[PASS] __bss_start__ matches .bss
+[PASS] __bss_end__ matches .bss end
+[PASS] BSS size is positive and 8-byte aligned
+[PASS] __stack_bottom__ matches .stack
+[PASS] __stack_top__ matches .stack end
+[PASS] stack is 16 KiB
+[PASS] stack top is 8-byte aligned
+[PASS] __image_start__ is image base
+[PASS] __image_end__ is end of .stack
+[PASS] image fits the 64 KiB K1 budget
+[PASS] image fits emulated RAM
+[PASS] at least two PT_LOAD segments
+[PASS] no PT_DYNAMIC / PT_INTERP
+[PASS] first PT_LOAD starts at image base
+[PASS] first PT_LOAD is executable
+[PASS] all segments have p_vaddr == p_paddr
+[PASS] all segments have p_memsz >= p_filesz
+[PASS] all segments fit emulated RAM
+[PASS] entry point is inside a loaded segment
+[PASS] some PT_LOAD is writable
+[PASS] no undefined symbols
+[PASS] no implicit libc/libgcc helpers
+[PASS] .comment was discarded
+[PASS] flat binary starts at image base
+[PASS] flat binary size matches allocated sections
+[PASS] flat binary content matches ELF load image
+
+ELF CHECK: PASS (63 checks)
+
+=== [3/5] QEMU platform ===
+$ C:\Python315\python.exe tools/verify_platform.py
+QEMU: C:\Program Files\qemu\qemu-system-arm.exe
+QEMU emulator version 11.1.0 (v11.1.0-12130-ge470268ff4)
+[PASS] QEMU has the integratorcp machine
+[PASS] integratorcp accepts -cpu arm1136
+[PASS] QMP info mtree returned a memory map
+[PASS] RAM is 128 MiB at 0x00000000
+[PASS] UART0 is PL011 at 0x16000000
+[PASS] UART1 is PL011 at 0x17000000
+[PASS] system controller is at 0x10000000
+evidence: C:\Users\scs\Documents\minitos-k1\build\qemu-platform.txt
+PLATFORM CHECK: PASS (7 checks)
+
+=== [4/5] runtime execution ===
+$ C:\Python315\python.exe tools/run_qemu.py
+QEMU: C:\Program Files\qemu\qemu-system-arm.exe -M integratorcp -cpu arm1136 -m 128M -kernel C:\Users\scs\Documents\minitos-k1\build\minitos-k1.elf -display none -monitor none -serial file:build\serial.log -no-reboot -d guest_errors -D build\qemu-guest-errors.log
+[PASS] guest produced serial output
+[PASS] first serial line is the K1 banner
+[PASS] board diagnostic is present
+[PASS] UART diagnostic is present
+[PASS] CPU MIDR is reported
+[PASS] CPU implementer is ARM (0x41)
+[PASS] CPU part is ARM1136 (0xB36)
+[PASS] QEMU guest-error log is empty
+
+serial output:
+  | MINITOS KERNEL STARTED
+  | board: integratorcp
+  | uart: pl011 @ 0x16000000
+  | cpu midr: 0x4117b363
+  | idle
+evidence: C:\Users\scs\Documents\minitos-k1\build\runtime-evidence.txt
+RUNTIME CHECK: PASS (8 checks)
+
+=== [5/5] reproducible build ===
+$ C:\Python315\python.exe tools/build.py repro
+building repro-a ...
+toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
+ELF       : C:\Users\scs\Documents\minitos-k1\build\repro-a\minitos-k1.elf (18200 bytes)
+  sha256  : 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1
+BIN       : C:\Users\scs\Documents\minitos-k1\build\repro-a\minitos-k1.bin (1133 bytes)
+  sha256  : 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
+size      :
+  text	   data	    bss	    dec	    hex	filename
+     1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\repro-a\minitos-k1.elf
+stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
+artifacts : C:\Users\scs\Documents\minitos-k1\build\repro-a
+building repro-b ...
+toolchain : C:\Users\scs\AppData\Local\Tools\xpack-arm-none-eabi-gcc-15.2.1-1.1\bin\arm-none-eabi-gcc.exe
+ELF       : C:\Users\scs\Documents\minitos-k1\build\repro-b\minitos-k1.elf (18200 bytes)
+  sha256  : 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1
+BIN       : C:\Users\scs\Documents\minitos-k1\build\repro-b\minitos-k1.bin (1133 bytes)
+  sha256  : 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30
+size      :
+  text	   data	    bss	    dec	    hex	filename
+     1133	      0	  16400	  17533	   447d	C:\Users\scs\Documents\minitos-k1\build\repro-b\minitos-k1.elf
+stack use : max 24 bytes (src/kernel/console.c:43:6:console_write_hex32)
+artifacts : C:\Users\scs\Documents\minitos-k1\build\repro-b
+minitos-k1.elf: 5f516ed5fc18cc460f1308fb0256d9b7aa40e78d153c3c2b260788da8d4d5bd1  MATCH
+minitos-k1.bin: 07c98c313a9ced3b0c4e291c9b1185597e60e27dd271016ea7f2b387d17ceb30  MATCH
+REPRODUCIBLE BUILD: PASS
+
+
+summary:
+  [PASS] build
+  [PASS] ELF structure
+  [PASS] QEMU platform
+  [PASS] runtime execution
+  [PASS] reproducible build
+
+RESULT: PASS

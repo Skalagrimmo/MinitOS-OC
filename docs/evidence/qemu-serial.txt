@@ -1,0 +1,5 @@
+MINITOS KERNEL STARTED
+board: integratorcp
+uart: pl011 @ 0x16000000
+cpu midr: 0x4117b363
+idle

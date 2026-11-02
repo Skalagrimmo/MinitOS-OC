@@ -1,0 +1,10 @@
+QEMU: C:\Program Files\qemu\qemu-system-arm.exe
+QEMU emulator version 11.1.0 (v11.1.0-12130-ge470268ff4)
+
+[PASS] QEMU has the integratorcp machine
+[PASS] integratorcp accepts -cpu arm1136
+[PASS] QMP info mtree returned a memory map
+[PASS] RAM is 128 MiB at 0x00000000
+[PASS] UART0 is PL011 at 0x16000000
+[PASS] UART1 is PL011 at 0x17000000
+[PASS] system controller is at 0x10000000

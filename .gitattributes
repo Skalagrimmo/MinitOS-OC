@@ -1,0 +1,14 @@
+# Keep executable shell scripts LF on every host.
+*.sh text eol=lf
+*.py text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.S text eol=lf
+*.ld text eol=lf
+Makefile text eol=lf
+
+# PowerShell scripts are consumed by Windows PowerShell.
+*.ps1 text eol=crlf
+
+# Raw UART capture: preserve the guest's CRLF bytes exactly.
+docs/evidence/qemu-serial.txt -text
